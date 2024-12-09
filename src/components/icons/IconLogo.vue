@@ -1,0 +1,182 @@
+<template>
+  <svg width="48" height="48" viewBox="0 0 582 582" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g filter="url(#filter0_ddd_1934_407)">
+      <circle cx="291" cy="275" r="227" fill="#C6E2FF" />
+    </g>
+    <g filter="url(#filter1_dd_1934_407)">
+      <circle cx="291" cy="275" r="154" fill="#409EFF" />
+    </g>
+    <g filter="url(#filter2_dd_1934_407)">
+      <path
+        d="M196 178.033C222.478 215.245 247.03 253.168 267.471 294.048C272.543 304.192 276.776 315.485 282.762 325.13C290.139 337.015 310.37 309.08 314.01 305.517C360.964 259.562 409.894 217.199 462.935 178.365C468.732 174.121 514.266 140.021 517.745 143.5"
+        stroke="#337ECC"
+        stroke-width="50"
+        stroke-linecap="round"
+      />
+    </g>
+    <defs>
+      <filter
+        id="filter0_ddd_1934_407"
+        x="0"
+        y="0"
+        width="582"
+        height="582"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feMorphology
+          radius="8"
+          operator="erode"
+          in="SourceAlpha"
+          result="effect1_dropShadow_1934_407"
+        />
+        <feOffset dy="8" />
+        <feGaussianBlur stdDeviation="8" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0" />
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1934_407" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="12" />
+        <feGaussianBlur stdDeviation="16" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+        <feBlend
+          mode="normal"
+          in2="effect1_dropShadow_1934_407"
+          result="effect2_dropShadow_1934_407"
+        />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feMorphology
+          radius="16"
+          operator="dilate"
+          in="SourceAlpha"
+          result="effect3_dropShadow_1934_407"
+        />
+        <feOffset dy="16" />
+        <feGaussianBlur stdDeviation="24" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0" />
+        <feBlend
+          mode="normal"
+          in2="effect2_dropShadow_1934_407"
+          result="effect3_dropShadow_1934_407"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect3_dropShadow_1934_407"
+          result="shape"
+        />
+      </filter>
+      <filter
+        id="filter1_dd_1934_407"
+        x="101"
+        y="97"
+        width="380"
+        height="380"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="8" />
+        <feGaussianBlur stdDeviation="10" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0" />
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1934_407" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feMorphology
+          radius="4"
+          operator="dilate"
+          in="SourceAlpha"
+          result="effect2_dropShadow_1934_407"
+        />
+        <feOffset dy="12" />
+        <feGaussianBlur stdDeviation="16" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+        <feBlend
+          mode="normal"
+          in2="effect1_dropShadow_1934_407"
+          result="effect2_dropShadow_1934_407"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect2_dropShadow_1934_407"
+          result="shape"
+        />
+      </filter>
+      <filter
+        id="filter2_dd_1934_407"
+        x="134.998"
+        y="94.2531"
+        width="443.748"
+        height="306.804"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="8" />
+        <feGaussianBlur stdDeviation="10" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0" />
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1934_407" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feMorphology
+          radius="4"
+          operator="dilate"
+          in="SourceAlpha"
+          result="effect2_dropShadow_1934_407"
+        />
+        <feOffset dy="12" />
+        <feGaussianBlur stdDeviation="16" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+        <feBlend
+          mode="normal"
+          in2="effect1_dropShadow_1934_407"
+          result="effect2_dropShadow_1934_407"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect2_dropShadow_1934_407"
+          result="shape"
+        />
+      </filter>
+    </defs>
+  </svg>
+</template>
+<script setup lang="ts"></script>

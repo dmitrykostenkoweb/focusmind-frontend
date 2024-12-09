@@ -1,12 +1,13 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header>Header</el-header>
+      <el-header>
+        <app-header />
+      </el-header>
       <el-container>
         <app-aside />
-        <el-main
-          >Main
-          <RouterView />
+        <el-main>
+          <router-view />
         </el-main>
       </el-container>
     </el-container>
@@ -14,7 +15,16 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import AppAside from '@/components/AppAside'
+import AppHeader from '@/components/AppHeader'
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+.app {
+  &__header {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+  }
+}
+</style>

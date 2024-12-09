@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import AreaList from '@/components/Areas/AreaList.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <area-list />
   </main>
 </template>
