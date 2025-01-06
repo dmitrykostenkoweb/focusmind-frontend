@@ -3,7 +3,7 @@
     <template #header>
       <div class="area-card__header">
         <p class="area-card__name">{{ area.name }}</p>
-        <el-button type="primary" size="large" circle :icon="Edit" />
+        <el-button type="primary" size="large" circle :icon="Edit" plain @click="emit('edit')" />
       </div>
     </template>
     <div class="area-card__cover-wrapper">
@@ -31,7 +31,12 @@ interface Props {
   area: Area
 }
 
+interface Emits {
+  (e: 'edit'): void
+}
+
 defineProps<Props>()
+const emit = defineEmits<Emits>()
 </script>
 
 <style scoped lang="scss">

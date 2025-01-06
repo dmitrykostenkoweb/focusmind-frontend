@@ -1,3 +1,5 @@
-import { useAreaStore } from '@/stores/areaStore.ts'
+import { useAreaApiStore } from './area/areaApiStore.ts'
+import { useAreaInteractionStore } from './area/areaInteractionStore.ts'
 
-export { useAreaStore }
+export { useAreaApiStore }
+export { useAreaInteractionStore }

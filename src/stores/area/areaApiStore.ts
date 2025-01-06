@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/services/axiosInstance'
 import type { Area } from '@/models/area.model'
+import type { AxiosError } from 'axios'
 
 interface State {
   areas: Area[]
   selectedArea: Area | null
   isLoading: boolean
-  error: string | null
+  error: null | AxiosError | string
 }
 
-export const useAreaStore = defineStore('areaStore', {
+export const useAreaApiStore = defineStore('areaStore', {
   state: (): State => ({
     areas: [],
     selectedArea: null,
@@ -44,7 +45,7 @@ export const useAreaStore = defineStore('areaStore', {
       }
     },
 
-    async createArea(newArea: Omit<Area, 'id'>) {
+    async createArea(newArea: Omit<Area, 'areaid'>) {
       this.isLoading = true
       this.error = null
       try {

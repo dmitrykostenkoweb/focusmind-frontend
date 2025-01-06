@@ -6,7 +6,9 @@
         An Area is a category like "Health & Fitness" or "Education" that helps you organize related
         projects and tasks.
       </p>
-      <el-button type="primary" size="large" round @click="emit('create')">Add</el-button>
+      <el-button round icon="Plus" type="primary" size="large" @click="emit('create')"
+        >Add</el-button
+      >
     </div>
   </el-card>
 </template>
