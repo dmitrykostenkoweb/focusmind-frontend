@@ -1,31 +1,29 @@
 <template>
-  <div>
-    <el-form :model="form" style="max-width: 600px">
-      <el-form-item label="Area Name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <!---->
-      <el-form-item label="Description">
-        <el-input v-model="form.description" type="textarea" />
-      </el-form-item>
-      <!---->
-      <el-form-item label="Upload Cover" name="imageUrl">
-        <!--        <area-form-img-upload />-->
-      </el-form-item>
-      <el-form-item v-if="mode === 'update'" label="Delete Area">
-        <el-button :loading @click="deleteAreaHandler" type="danger" :icon="Delete" circle />
-      </el-form-item>
+  <el-form :model="form" style="max-width: 600px" label-position="top">
+    <el-form-item label="Area Name">
+      <el-input v-model="form.name" />
+    </el-form-item>
+    <el-form-item label="Description">
+      <el-input v-model="form.description" type="textarea" />
+    </el-form-item>
+    <el-form-item label="Upload Cover" name="imageUrl">
+      <!-- <area-form-img-upload /> -->
+    </el-form-item>
+    <el-form-item v-if="mode === 'update'" label="Delete Area">
+      <el-button :loading="loading" @click="deleteAreaHandler" type="danger" :icon="Delete" />
+    </el-form-item>
 
-      <el-form-item>
-        <el-button @click="areaInteractionStore.closeDialog()">Cancel</el-button>
-        <el-button :loading type="primary" @click="onSubmit">Create</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <el-form-item>
+      <el-button @click="closeDialog">Cancel</el-button>
+      <el-button :loading="loading" type="primary" @click="onSubmit">
+        {{ mode === 'create' ? 'Create' : 'Update' }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
+
 <script lang="ts" setup>
-import { computed, reactive } from 'vue'
-// import AreaFormImgUpload from '@/components/Areas/AreaFrom/AreaFormImgUpload.vue'
+import { computed, reactive, watch } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
 import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
 import type { Area } from '@/models'
@@ -34,99 +32,47 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 type Form = Omit<Area, 'areaid'>
 
+// Stores
 const areaInteractionStore = useAreaInteractionStore()
 const areaApiStore = useAreaApiStore()
 
-const mode = computed(() => areaInteractionStore.formMode)
+// Computed properties
+const mode = computed<'create' | 'update'>(() => areaInteractionStore.formMode)
 const area = computed<Area | null>(() => areaInteractionStore.selectedArea)
-const error = computed<null | AxiosError | string>(() => areaApiStore.error)
+const error = computed<AxiosError | string | null>(() => areaApiStore.error)
 const loading = computed<boolean>(() => areaApiStore.isLoading)
 
+// Reactive form
 const form = reactive<Form>({
-  name: area.value?.name || '',
-  description: area.value?.description,
-  imageurl: area.value?.imageurl,
+  name: '',
+  description: '',
+  imageurl: '',
 })
 
+// Handlers
 const onSubmit = async (): Promise<void> => {
   if (mode.value === 'update') await handleEdit()
-  else if (mode.value === 'create') await handleAdd()
+  else await handleAdd()
 }
 
 const handleEdit = async (): Promise<void> => {
-  if (area.value?.areaid) {
-    await areaApiStore.updateArea({
-      areaid: area.value.areaid,
-      ...form,
-    })
-  } else
-    ElMessage({
-      message: 'Area not found!',
-      type: 'error',
-      plain: true,
-    })
+  if (!area.value?.areaid) {
+    showMessage('Area not found!', 'error')
+    return
+  }
 
-  handleUpdateResponse()
+  await areaApiStore.updateArea({ areaid: area.value.areaid, ...form })
+  handleResponse('Area updated successfully!')
 }
 
 const handleAdd = async (): Promise<void> => {
   await areaApiStore.createArea(form)
-  handleCreateResponse()
+  handleResponse('Area created successfully!')
 }
 
-const handleUpdateResponse = (): void => {
-  if (error.value) {
-    if (error.value instanceof AxiosError) {
-      ElMessage({
-        message: error.value.message,
-        type: 'error',
-        plain: true,
-      })
-    } else {
-      ElMessage({
-        message: error.value,
-        type: 'error',
-        plain: true,
-      })
-    }
-  } else {
-    ElMessage({
-      message: 'Area updated successfully!',
-      type: 'success',
-      plain: true,
-    })
-  }
-  areaInteractionStore.closeDialog()
-}
-
-const handleCreateResponse = (): void => {
-  if (error.value) {
-    if (error.value instanceof AxiosError) {
-      ElMessage({
-        message: error.value.message,
-        type: 'error',
-        plain: true,
-      })
-    } else {
-      ElMessage({
-        message: error.value,
-        type: 'error',
-        plain: true,
-      })
-    }
-  } else {
-    ElMessage({
-      message: 'Area created successfully!',
-      type: 'success',
-      plain: true,
-    })
-    areaInteractionStore.closeDialog()
-  }
-}
-
-const deleteAreaHandler = () => {
+const deleteAreaHandler = async (): Promise<void> => {
   ElMessageBox.confirm(
-    `Are you sure you want to delete the area '${area.value?.name || ''}'? This action cannot be undone, and all related data will be permanently removed`,
+    `Are you sure you want to delete the area '${area.value?.name || ''}'? This action cannot be undone.`,
     'Confirm Deletion',
     {
       confirmButtonText: 'OK',
@@ -135,47 +81,51 @@ const deleteAreaHandler = () => {
     },
   )
     .then(async () => {
-      if (area.value?.areaid) {
-        await areaApiStore.deleteArea(area.value?.areaid)
-        handleDeleteResponse()
-      } else {
-        ElMessage({
-          type: 'error',
-          message: 'Area not found!',
-        })
+      if (!area.value?.areaid) {
+        showMessage('Area not found!', 'error')
+        return
       }
-      areaInteractionStore.closeDialog()
+      await areaApiStore.deleteArea(area.value.areaid)
+      handleResponse('Area deleted successfully!')
     })
     .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: 'Delete canceled',
-      })
+      showMessage('Delete canceled', 'info')
     })
 }
 
-const handleDeleteResponse = (): void => {
+const clearForm = (): void => {
+  form.name = ''
+  form.description = ''
+  form.imageurl = ''
+}
+
+const closeDialog = (): void => {
+  areaInteractionStore.closeDialog()
+  clearForm()
+}
+
+// Utility functions
+const handleResponse = (successMessage: string) => {
   if (error.value) {
-    if (error.value instanceof AxiosError) {
-      ElMessage({
-        message: error.value.message,
-        type: 'error',
-        plain: true,
-      })
-    } else {
-      ElMessage({
-        message: error.value,
-        type: 'error',
-        plain: true,
-      })
-    }
+    const errorMessage = error.value instanceof AxiosError ? error.value.message : error.value
+    showMessage(errorMessage, 'error')
   } else {
-    ElMessage({
-      message: 'Area deleted successfully!',
-      type: 'success',
-      plain: true,
-    })
-    areaInteractionStore.closeDialog()
+    showMessage(successMessage, 'success')
+    closeDialog()
   }
 }
+
+const showMessage = (message: string, type: 'success' | 'error' | 'info') => {
+  ElMessage({ message, type, plain: true })
+}
+
+watch(area, (newValue) => {
+  if (newValue) {
+    form.name = newValue.name || ''
+    form.description = newValue.description || ''
+    form.imageurl = newValue.imageurl || ''
+  } else {
+    clearForm()
+  }
+})
 </script>

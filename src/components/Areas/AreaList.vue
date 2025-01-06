@@ -1,32 +1,35 @@
 <template>
   <div class="grid-container">
-    <area-card class="grid-item" v-for="area in areas" :key="area.areaid" :area />
-    <area-add-card @create="create" />
+    <area-card
+      class="grid-item"
+      v-for="area in areaApiStore.areas"
+      :key="area.areaid"
+      :area
+      @edit="areaInteractionStore.openEditDialog(area)"
+    />
+    <area-add-card @create="areaInteractionStore.openCreateDialog()" />
   </div>
-  <area-form-dialog :area="updatedArea" :form-mode :dialog-visible />
+  <el-dialog v-model="areaInteractionStore.dialogVisible" :title="modalTitle" width="600">
+    <area-form />
+  </el-dialog>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useGetAllAreas } from './composables'
+import { computed, onMounted } from 'vue'
+import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
 import AreaAddCard from './AreaCard/AreaAddCard.vue'
 import AreaCard from './AreaCard/AreaCard.vue'
-import AreaFormDialog from './AreaFrom/AreaFormDialog.vue'
-import type { Area } from '@/models'
+import AreaForm from './AreaFrom/AreaForm.vue'
 
-const { get, data: areas } = useGetAllAreas()
+const areaApiStore = useAreaApiStore()
+const areaInteractionStore = useAreaInteractionStore()
 
-const formMode = ref<'create' | 'update'>('create')
+const modalTitle = computed<string>(() =>
+  areaInteractionStore.formMode === 'create'
+    ? 'Create New Area'
+    : `Edit Area: ${areaInteractionStore.selectedArea?.name || ''}`,
+)
 
-const dialogVisible = ref<boolean>(false)
-const updatedArea = ref<Area | null>(null)
-
-const create = (): void => {
-  updatedArea.value = null
-  dialogVisible.value = true
-  formMode.value = 'create'
-}
-
-onMounted(get)
+onMounted(async () => await areaApiStore.fetchAreas())
 </script>
 <style lang="scss" scoped>
 .grid-container {
