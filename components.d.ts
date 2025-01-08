@@ -19,6 +19,7 @@ declare module 'vue' {
     AreaFormDialog: typeof import('./src/components/Areas/AreaFrom/AreaFormDialog.vue')['default']
     AreaFormImgUpload: typeof import('./src/components/Areas/AreaFrom/AreaFormImgUpload.vue')['default']
     AreaFormModal: typeof import('./src/components/Areas/AreaFrom/AreaFormModal.vue')['default']
+    AreaFormSelectedCover: typeof import('./src/components/Areas/AreaFrom/AreaFormSelectedCover.vue')['default']
     AreaList: typeof import('./src/components/Areas/AreaList.vue')['default']
     Areas: typeof import('./src/components/Areas/Areas.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -33,6 +34,7 @@ declare module 'vue' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElLink: typeof import('element-plus/es')['ElLink']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
@@ -49,10 +51,17 @@ declare module 'vue' {
     IconLogo: typeof import('./src/components/icons/IconLogo.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    IconUnsplash: typeof import('./src/components/icons/IconUnsplash.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    Unsplash: typeof import('./src/components/common/Unsplash/Unsplash.vue')['default']
+    UnsplashGallery: typeof import('./src/components/common/Unsplash/UnsplashGallery.vue')['default']
+    UnsplashTrigger: typeof import('./src/components/common/Unsplash/UnsplashTrigger.vue')['default']
     Upload: typeof import('./src/components/Areas/AreaFrom/Upload.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

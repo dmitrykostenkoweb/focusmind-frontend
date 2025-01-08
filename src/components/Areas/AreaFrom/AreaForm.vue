@@ -6,8 +6,8 @@
     <el-form-item label="Description">
       <el-input v-model="form.description" type="textarea" />
     </el-form-item>
-    <el-form-item label="Upload Cover" name="imageUrl">
-      <!-- <area-form-img-upload /> -->
+    <el-form-item label="Select Cover" name="imageUrl">
+      <unsplash-trigger v-model="form.imageUrl" />
     </el-form-item>
     <el-form-item v-if="mode === 'update'" label="Delete Area">
       <el-button :loading="loading" @click="deleteAreaHandler" type="danger" :icon="Delete" />
@@ -29,6 +29,7 @@ import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
 import type { Area } from '@/models'
 import { AxiosError } from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import UnsplashTrigger from '@/components/common/Unsplash/UnsplashTrigger.vue'
 
 type Form = Omit<Area, 'areaid'>
 
@@ -119,13 +120,28 @@ const showMessage = (message: string, type: 'success' | 'error' | 'info') => {
   ElMessage({ message, type, plain: true })
 }
 
-watch(area, (newValue) => {
-  if (newValue) {
-    form.name = newValue.name || ''
-    form.description = newValue.description || ''
-    form.imageurl = newValue.imageurl || ''
-  } else {
-    clearForm()
-  }
-})
+watch(
+  area,
+  (newValue) => {
+    if (newValue) {
+      form.name = newValue.name || ''
+      form.description = newValue.description || ''
+      form.imageurl = newValue.imageurl || ''
+    } else {
+      clearForm()
+    }
+  },
+  { immediate: true },
+)
 </script>
+<style scoped lang="scss">
+:deep(.el-card__body) {
+  padding: 4px;
+}
+:deep(.el-card__footer) {
+  padding: 4px;
+}
+:deep(.el-card) {
+  width: fit-content;
+}
+</style>

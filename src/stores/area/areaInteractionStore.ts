@@ -7,7 +7,7 @@ interface State {
   selectedArea: Area | null
 }
 
-export const useAreaInteractionStore = defineStore('uiStore', {
+export const useAreaInteractionStore = defineStore('area-interaction-store', {
   state: (): State => ({
     dialogVisible: false,
     formMode: 'create',

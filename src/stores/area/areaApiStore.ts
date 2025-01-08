@@ -10,7 +10,7 @@ interface State {
   error: null | AxiosError | string
 }
 
-export const useAreaApiStore = defineStore('areaStore', {
+export const useAreaApiStore = defineStore('area-api-store', {
   state: (): State => ({
     areas: [],
     selectedArea: null,

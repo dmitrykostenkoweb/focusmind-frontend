@@ -1,2 +1,4 @@
 import IconLogo from './IconLogo.vue'
-export { IconLogo }
+import IconUnsplash from './IconUnsplash.vue'
+
+export { IconLogo, IconUnsplash }
