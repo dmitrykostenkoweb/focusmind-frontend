@@ -1,6 +1,6 @@
 export interface Area {
-  areaid: number
+  id: number
   name: string
   description?: string
-  imageurl?: string
+  imageUrl?: string
 }

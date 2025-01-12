@@ -7,7 +7,7 @@
       </div>
     </template>
     <div class="area-card__cover-wrapper">
-      <el-image class="area-card__cover" lazy :src="area.imageurl" fit="cover">
+      <el-image class="area-card__cover" lazy :src="area.imageUrl" fit="cover">
         <template #error>
           <div class="area-card__image-slot">
             <el-icon><PictureFilled /></el-icon>

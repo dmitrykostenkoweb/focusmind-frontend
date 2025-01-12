@@ -31,7 +31,7 @@ import { AxiosError } from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import UnsplashTrigger from '@/components/common/Unsplash/UnsplashTrigger.vue'
 
-type Form = Omit<Area, 'areaid'>
+type Form = Omit<Area, 'id'>
 
 // Stores
 const areaInteractionStore = useAreaInteractionStore()
@@ -47,7 +47,7 @@ const loading = computed<boolean>(() => areaApiStore.isLoading)
 const form = reactive<Form>({
   name: '',
   description: '',
-  imageurl: '',
+  imageUrl: '',
 })
 
 // Handlers
@@ -57,12 +57,12 @@ const onSubmit = async (): Promise<void> => {
 }
 
 const handleEdit = async (): Promise<void> => {
-  if (!area.value?.areaid) {
+  if (!area.value?.id) {
     showMessage('Area not found!', 'error')
     return
   }
 
-  await areaApiStore.updateArea({ areaid: area.value.areaid, ...form })
+  await areaApiStore.updateArea({ id: area.value.id, ...form })
   handleResponse('Area updated successfully!')
 }
 
@@ -82,11 +82,11 @@ const deleteAreaHandler = async (): Promise<void> => {
     },
   )
     .then(async () => {
-      if (!area.value?.areaid) {
+      if (!area.value?.id) {
         showMessage('Area not found!', 'error')
         return
       }
-      await areaApiStore.deleteArea(area.value.areaid)
+      await areaApiStore.deleteArea(area.value.id)
       handleResponse('Area deleted successfully!')
     })
     .catch(() => {
@@ -97,7 +97,7 @@ const deleteAreaHandler = async (): Promise<void> => {
 const clearForm = (): void => {
   form.name = ''
   form.description = ''
-  form.imageurl = ''
+  form.imageUrl = ''
 }
 
 const closeDialog = (): void => {
@@ -126,7 +126,7 @@ watch(
     if (newValue) {
       form.name = newValue.name || ''
       form.description = newValue.description || ''
-      form.imageurl = newValue.imageurl || ''
+      form.imageUrl = newValue.imageUrl || ''
     } else {
       clearForm()
     }

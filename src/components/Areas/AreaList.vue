@@ -3,7 +3,7 @@
     <area-card
       class="grid-item"
       v-for="area in areaApiStore.areas"
-      :key="area.areaid"
+      :key="area.id"
       :area
       @edit="areaInteractionStore.openEditDialog(area)"
     />

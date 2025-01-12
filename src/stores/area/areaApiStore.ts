@@ -45,7 +45,7 @@ export const useAreaApiStore = defineStore('area-api-store', {
       }
     },
 
-    async createArea(newArea: Omit<Area, 'areaid'>) {
+    async createArea(newArea: Omit<Area, 'id'>) {
       this.isLoading = true
       this.error = null
       try {
@@ -62,8 +62,8 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.put<Area>(`/areas/${updatedArea.areaid}`, updatedArea)
-        const index = this.areas.findIndex((area) => area.areaid === updatedArea.areaid)
+        const response = await axiosInstance.put<Area>(`/areas/${updatedArea.id}`, updatedArea)
+        const index = this.areas.findIndex((area) => area.id === updatedArea.id)
         if (index !== -1) {
           this.areas[index] = response.data
         }
@@ -79,7 +79,7 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.error = null
       try {
         await axiosInstance.delete(`/areas/${id}`)
-        this.areas = this.areas.filter((area) => area.areaid !== id) // Usuń z listy
+        this.areas = this.areas.filter((area) => area.id !== id)
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
