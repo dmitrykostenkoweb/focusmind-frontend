@@ -1,34 +1,33 @@
 <template>
-  <el-card class="area-card" shadow="hover">
+  <el-card class="project-card" shadow="hover">
     <template #header>
-      <div class="area-card__header">
-        <p class="area-card__name">{{ area.name }}</p>
+      <div class="project-card__header">
+        <p class="project-card__name">{{ project.name }}</p>
         <el-button type="text" size="large" :icon="Edit" @click="emit('edit')" />
       </div>
     </template>
     <div class="area-card__cover-wrapper">
-      <el-image class="area-card__cover" lazy :src="area.imageUrl" fit="cover">
+      <el-image class="project-card__cover" lazy :src="project.imageUrl" fit="cover">
         <template #error>
-          <div class="area-card__image-slot">
+          <div class="project-card__image-slot">
             <el-icon><PictureFilled /></el-icon>
           </div>
         </template>
       </el-image>
     </div>
     <template #footer>
-      <p class="area-card__description">
-        {{ area.description }}
+      <p class="project-card__description">
+        {{ project.description }}
       </p>
     </template>
   </el-card>
 </template>
-
 <script setup lang="ts">
 import { Edit, PictureFilled } from '@element-plus/icons-vue'
-import type { Area } from '@/models'
+import type { Project } from '@/models'
 
 interface Props {
-  area: Area
+  project: Project
 }
 
 interface Emits {
@@ -40,7 +39,7 @@ const emit = defineEmits<Emits>()
 </script>
 
 <style scoped lang="scss">
-.area-card {
+.project-card {
   max-width: 480px;
 
   &__header {
@@ -59,6 +58,7 @@ const emit = defineEmits<Emits>()
   &__cover-wrapper {
     width: 100%;
     height: 200px;
+    overflow: hidden;
   }
 
   &__cover {

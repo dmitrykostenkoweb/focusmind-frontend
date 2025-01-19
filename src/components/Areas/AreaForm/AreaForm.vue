@@ -1,13 +1,27 @@
 <template>
   <el-form :model="form" style="max-width: 600px" label-position="top">
-    <el-form-item label="Area Name">
+    <el-form-item label="Name">
       <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item label="Description">
       <el-input v-model="form.description" type="textarea" />
     </el-form-item>
-    <el-form-item label="Select Cover" name="imageUrl">
-      <unsplash-trigger v-model="form.imageUrl" />
+    <el-form-item style="display: flex; flex-direction: column" label="Cover" name="imageUrl">
+      <el-popover placement="right" :width="400" trigger="hover">
+        <template #reference>
+          <el-tag
+            v-if="form.imageUrl"
+            closable
+            disable-transitions
+            type="primary"
+            @close="removePhoto"
+          >
+            unsplash photo
+          </el-tag>
+          <el-button size="small" style="width: 120px" v-else>Add</el-button>
+        </template>
+        <unsplash v-model="form.imageUrl" />
+      </el-popover>
     </el-form-item>
     <el-form-item v-if="mode === 'update'" label="Delete Area">
       <el-button :loading="loading" @click="deleteAreaHandler" type="danger" :icon="Delete" />
@@ -20,16 +34,18 @@
       </el-button>
     </el-form-item>
   </el-form>
+  <unsplash-gallery />
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
 import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
 import type { Area } from '@/models'
 import { AxiosError } from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import UnsplashTrigger from '@/components/common/Unsplash/UnsplashTrigger.vue'
+import Unsplash from '@/components/common/Unsplash/Unsplash.vue'
+import UnsplashGallery from '@/components/common/Unsplash/UnsplashGallery.vue'
 
 type Form = Omit<Area, 'id'>
 
@@ -51,6 +67,10 @@ const form = reactive<Form>({
 })
 
 // Handlers
+const removePhoto = (): void => {
+  form.imageUrl = ''
+}
+
 const onSubmit = async (): Promise<void> => {
   if (mode.value === 'update') await handleEdit()
   else await handleAdd()

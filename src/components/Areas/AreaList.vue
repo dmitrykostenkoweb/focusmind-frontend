@@ -1,24 +1,27 @@
 <template>
-  <div class="grid-container">
-    <area-card
-      class="grid-item"
-      v-for="area in areaApiStore.areas"
-      :key="area.id"
-      :area
-      @edit="areaInteractionStore.openEditDialog(area)"
-    />
-    <area-add-card @create="areaInteractionStore.openCreateDialog()" />
+  <div>
+    <h2>Areas</h2>
+    <div class="grid-container">
+      <area-card
+        v-for="area in areaApiStore.areas"
+        :key="area.id"
+        :area
+        @edit="areaInteractionStore.openEditDialog(area)"
+      />
+      <area-add-card @create="areaInteractionStore.openCreateDialog()" />
+    </div>
   </div>
   <el-dialog v-model="areaInteractionStore.dialogVisible" :title="modalTitle" width="600">
     <area-form />
   </el-dialog>
 </template>
+
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
 import AreaAddCard from './AreaCard/AreaAddCard.vue'
 import AreaCard from './AreaCard/AreaCard.vue'
-import AreaForm from './AreaFrom/AreaForm.vue'
+import AreaForm from './AreaForm/AreaForm.vue'
 
 const areaApiStore = useAreaApiStore()
 const areaInteractionStore = useAreaInteractionStore()
@@ -31,11 +34,3 @@ const modalTitle = computed<string>(() =>
 
 onMounted(async () => await areaApiStore.fetchAreas())
 </script>
-<style lang="scss" scoped>
-.grid-container {
-  padding: 16px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
-  gap: 16px;
-}
-</style>
