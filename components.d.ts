@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddAreaCard: typeof import('./src/components/Areas/AddAreaCard.vue')['default']
+    AddForm: typeof import('./src/components/common/AddForm/AddForm.vue')['default']
     AppAside: typeof import('./src/components/AppAside/AppAside.vue')['default']
     AppAsideArea: typeof import('./src/components/AppAside/AppAsideNodes/AppAsideArea.vue')['default']
     AppAsideProject: typeof import('./src/components/AppAside/AppAsideNodes/AppAsideProject.vue')['default']
@@ -15,7 +16,7 @@ declare module 'vue' {
     AppHeader: typeof import('./src/components/AppHeader/AppHeader.vue')['default']
     AreaAddCard: typeof import('./src/components/Areas/AreaCard/AreaAddCard.vue')['default']
     AreaCard: typeof import('./src/components/Areas/AreaCard/AreaCard.vue')['default']
-    AreaForm: typeof import('./src/components/Areas/AreaForm/AreaForm.vue')['default']
+    AreaForm: typeof import('./src/components/common/AddForm/AreaForm.vue')['default']
     AreaFormDialog: typeof import('./src/components/Areas/AreaFrom/AreaFormDialog.vue')['default']
     AreaFormImgUpload: typeof import('./src/components/Areas/AreaFrom/AreaFormImgUpload.vue')['default']
     AreaFormModal: typeof import('./src/components/Areas/AreaFrom/AreaFormModal.vue')['default']

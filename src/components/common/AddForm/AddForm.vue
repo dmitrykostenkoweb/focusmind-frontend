@@ -38,14 +38,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch } from 'vue'
-import { Delete } from '@element-plus/icons-vue'
-import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
-import type { Area } from '@/models'
-import { AxiosError } from 'axios'
+import { computed, reactive, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import Unsplash from '@/components/common/Unsplash/Unsplash.vue'
-import UnsplashGallery from '@/components/common/Unsplash/UnsplashGallery.vue'
+import { Delete } from '@element-plus/icons-vue'
+import { UnsplashGallery, Unsplash } from '@/components/common'
+import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
+import type { AxiosError } from 'axios'
+import type { Area } from '@/models'
 
 type Form = Omit<Area, 'id'>
 
