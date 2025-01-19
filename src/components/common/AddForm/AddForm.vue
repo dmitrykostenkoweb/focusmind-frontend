@@ -20,16 +20,16 @@
           </el-tag>
           <el-button size="small" style="width: 120px" v-else>Add</el-button>
         </template>
-        <unsplash v-model="form.imageUrl" />
+        <unsplash v-model="form.imageUrl" v-model:hex="form.hex" />
       </el-popover>
     </el-form-item>
     <el-form-item v-if="mode === 'update'" label="Delete Area">
-      <el-button :loading="loading" @click="deleteAreaHandler" type="danger" :icon="Delete" />
+      <el-button :loading="loading" @click="emit('delete')" type="danger" :icon="Delete" />
     </el-form-item>
 
     <el-form-item>
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button :loading="loading" type="primary" @click="onSubmit">
+      <el-button :loading="loading" type="primary" @click="emit('submit', form)">
         {{ mode === 'create' ? 'Create' : 'Update' }}
       </el-button>
     </el-form-item>
@@ -38,114 +38,63 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, watch } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { reactive, watch } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
 import { UnsplashGallery, Unsplash } from '@/components/common'
-import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
-import type { AxiosError } from 'axios'
-import type { Area } from '@/models'
+import type { Area, Project } from '@/models'
 
-type Form = Omit<Area, 'id'>
+type Entity = Area | Project
+type Form = Omit<Entity, 'id'>
 
-// Stores
-const areaInteractionStore = useAreaInteractionStore()
-const areaApiStore = useAreaApiStore()
+interface Props {
+  entity: Entity | null
+  mode: 'create' | 'update'
+  loading: boolean
+}
 
-// Computed properties
-const mode = computed<'create' | 'update'>(() => areaInteractionStore.formMode)
-const area = computed<Area | null>(() => areaInteractionStore.selectedArea)
-const error = computed<AxiosError | string | null>(() => areaApiStore.error)
-const loading = computed<boolean>(() => areaApiStore.isLoading)
+interface Emits {
+  (e: 'delete'): void
+  (e: 'submit', form: Form): void
+  (e: 'close'): void
+}
+
+const { entity, mode, loading } = defineProps<Props>()
+const emit = defineEmits<Emits>()
 
 // Reactive form
 const form = reactive<Form>({
   name: '',
   description: '',
   imageUrl: '',
+  hex: '',
 })
 
 // Handlers
 const removePhoto = (): void => {
   form.imageUrl = ''
-}
-
-const onSubmit = async (): Promise<void> => {
-  if (mode.value === 'update') await handleEdit()
-  else await handleAdd()
-}
-
-const handleEdit = async (): Promise<void> => {
-  if (!area.value?.id) {
-    showMessage('Area not found!', 'error')
-    return
-  }
-
-  await areaApiStore.updateArea({ id: area.value.id, ...form })
-  handleResponse('Area updated successfully!')
-}
-
-const handleAdd = async (): Promise<void> => {
-  await areaApiStore.createArea(form)
-  handleResponse('Area created successfully!')
-}
-
-const deleteAreaHandler = async (): Promise<void> => {
-  ElMessageBox.confirm(
-    `Are you sure you want to delete the area '${area.value?.name || ''}'? This action cannot be undone.`,
-    'Confirm Deletion',
-    {
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      type: 'warning',
-    },
-  )
-    .then(async () => {
-      if (!area.value?.id) {
-        showMessage('Area not found!', 'error')
-        return
-      }
-      await areaApiStore.deleteArea(area.value.id)
-      handleResponse('Area deleted successfully!')
-    })
-    .catch(() => {
-      showMessage('Delete canceled', 'info')
-    })
+  form.hex = ''
 }
 
 const clearForm = (): void => {
   form.name = ''
   form.description = ''
   form.imageUrl = ''
+  form.hex = ''
 }
 
 const closeDialog = (): void => {
-  areaInteractionStore.closeDialog()
+  emit('close')
   clearForm()
 }
 
-// Utility functions
-const handleResponse = (successMessage: string) => {
-  if (error.value) {
-    const errorMessage = error.value instanceof AxiosError ? error.value.message : error.value
-    showMessage(errorMessage, 'error')
-  } else {
-    showMessage(successMessage, 'success')
-    closeDialog()
-  }
-}
-
-const showMessage = (message: string, type: 'success' | 'error' | 'info') => {
-  ElMessage({ message, type, plain: true })
-}
-
 watch(
-  area,
+  (): Entity | null => entity,
   (newValue) => {
     if (newValue) {
       form.name = newValue.name || ''
       form.description = newValue.description || ''
       form.imageUrl = newValue.imageUrl || ''
+      form.hex = newValue.hex || ''
     } else {
       clearForm()
     }

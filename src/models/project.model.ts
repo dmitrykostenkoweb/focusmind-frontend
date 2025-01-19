@@ -1,3 +1,5 @@
+import type { Status } from './shared.model.ts'
+
 export interface Project {
   id: number
   name: string
@@ -5,4 +7,5 @@ export interface Project {
   status: Status
   description?: string
   imageUrl?: string
+  hex?: string
 }

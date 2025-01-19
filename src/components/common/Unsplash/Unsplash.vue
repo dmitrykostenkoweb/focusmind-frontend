@@ -49,6 +49,7 @@ import type { Photo } from '@/models'
 import type { InputInstance } from 'element-plus'
 
 const url = defineModel<string>()
+const hex = defineModel<string>('hex')
 
 const unsplashApiStore = useUnsplashApiStore()
 const unsplashInteractionStore = useUnsplashInteractionStore()
@@ -92,7 +93,10 @@ const handleSearchConfirm = (): void => {
 watch(
   (): Photo | null => unsplashInteractionStore.selectedPhoto,
   (p) => {
-    if (p) url.value = p.urls.regular
+    if (p) {
+      url.value = p.urls.regular
+      hex.value = p.color
+    }
   },
 )
 

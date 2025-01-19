@@ -1,36 +1,44 @@
 <template>
-  <div>
+  <header class="area-list__header">
     <h2>Areas</h2>
-    <div class="grid-container">
-      <area-card
-        v-for="area in areaApiStore.areas"
-        :key="area.id"
-        :area
-        @edit="areaInteractionStore.openEditDialog(area)"
-      />
-      <area-add-card @create="areaInteractionStore.openCreateDialog()" />
-    </div>
+    <el-button
+      round
+      icon="Plus"
+      type="primary"
+      size="small"
+      @click="areaInteractionStore.openCreateDialog()"
+      >Add</el-button
+    >
+  </header>
+  <div class="grid-container">
+    <area-card
+      v-for="area in areaApiStore.areas"
+      :key="area.id"
+      :area
+      @edit="areaInteractionStore.openEditDialog(area)"
+    />
   </div>
-  <el-dialog v-model="areaInteractionStore.dialogVisible" :title="modalTitle" width="600">
-    <area-form />
-  </el-dialog>
+  <area-form />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
-import AreaAddCard from './AreaCard/AreaAddCard.vue'
 import AreaCard from './AreaCard/AreaCard.vue'
 import AreaForm from './AreaForm/AreaForm.vue'
 
 const areaApiStore = useAreaApiStore()
 const areaInteractionStore = useAreaInteractionStore()
 
-const modalTitle = computed<string>(() =>
-  areaInteractionStore.formMode === 'create'
-    ? 'Create New Area'
-    : `Edit Area: ${areaInteractionStore.selectedArea?.name || ''}`,
-)
-
 onMounted(async () => await areaApiStore.fetchAreas())
 </script>
+
+<style scoped lang="scss">
+.area-list {
+  &__header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+}
+</style>

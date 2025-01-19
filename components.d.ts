@@ -16,7 +16,7 @@ declare module 'vue' {
     AppHeader: typeof import('./src/components/AppHeader/AppHeader.vue')['default']
     AreaAddCard: typeof import('./src/components/Areas/AreaCard/AreaAddCard.vue')['default']
     AreaCard: typeof import('./src/components/Areas/AreaCard/AreaCard.vue')['default']
-    AreaForm: typeof import('./src/components/common/AddForm/AreaForm.vue')['default']
+    AreaForm: typeof import('./src/components/Areas/AreaForm/AreaForm.vue')['default']
     AreaFormDialog: typeof import('./src/components/Areas/AreaFrom/AreaFormDialog.vue')['default']
     AreaFormImgUpload: typeof import('./src/components/Areas/AreaFrom/AreaFormImgUpload.vue')['default']
     AreaFormModal: typeof import('./src/components/Areas/AreaFrom/AreaFormModal.vue')['default']

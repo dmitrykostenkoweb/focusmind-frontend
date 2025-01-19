@@ -3,7 +3,7 @@
     <template #header>
       <div class="project-card__header">
         <p class="project-card__name">{{ project.name }}</p>
-        <el-button type="text" size="large" :icon="Edit" @click="emit('edit')" />
+        <el-button type="primary" size="large" :icon="Edit" @click="emit('edit')" />
       </div>
     </template>
     <div class="area-card__cover-wrapper">

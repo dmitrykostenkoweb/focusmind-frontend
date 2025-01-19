@@ -1,9 +1,9 @@
 <template>
-  <el-card class="area-card" shadow="hover">
+  <el-card :style="{ background, color }" class="area-card" shadow="hover">
     <template #header>
       <div class="area-card__header">
         <p class="area-card__name">{{ area.name }}</p>
-        <el-button type="text" size="large" :icon="Edit" @click="emit('edit')" />
+        <el-button type="info" size="large" :icon="Edit" @click="emit('edit')" />
       </div>
     </template>
     <div class="area-card__cover-wrapper">
@@ -24,8 +24,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Edit, PictureFilled } from '@element-plus/icons-vue'
 import type { Area } from '@/models'
+import { hexToRgba, isLightColor } from '@/utils'
 
 interface Props {
   area: Area
@@ -35,8 +37,16 @@ interface Emits {
   (e: 'edit'): void
 }
 
-defineProps<Props>()
+const { area } = defineProps<Props>()
 const emit = defineEmits<Emits>()
+
+const background = computed<string>(() => (area.hex ? hexToRgba(area.hex, 0.5) : '#fff'))
+const color = computed(() => {
+  const match = background.value?.match(/\d+/g)?.map(Number)
+  if (!match || match.length < 3) return '#303133'
+  const [r, g, b] = match
+  return isLightColor(r, g, b) ? '#303133' : '#FFFFFF'
+})
 </script>
 
 <style scoped lang="scss">
@@ -54,6 +64,7 @@ const emit = defineEmits<Emits>()
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-weight: bold;
   }
 
   &__cover-wrapper {
@@ -85,7 +96,6 @@ const emit = defineEmits<Emits>()
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    color: var(--el-text-color-secondary);
   }
 }
 </style>

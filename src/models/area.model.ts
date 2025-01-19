@@ -3,4 +3,5 @@ export interface Area {
   name: string
   description?: string
   imageUrl?: string
+  hex?: string
 }
