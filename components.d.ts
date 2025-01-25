@@ -8,7 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddAreaCard: typeof import('./src/components/Areas/AddAreaCard.vue')['default']
-    AddForm: typeof import('./src/components/common/AddForm/AddForm.vue')['default']
+    AddForm: typeof import('./src/components/common/AddFormDialog/AddForm.vue')['default']
+    AddFormDialog: typeof import('./src/components/common/AddFormDialog/AddFormDialog.vue')['default']
     AppAside: typeof import('./src/components/AppAside/AppAside.vue')['default']
     AppAsideArea: typeof import('./src/components/AppAside/AppAsideNodes/AppAsideArea.vue')['default']
     AppAsideProject: typeof import('./src/components/AppAside/AppAsideNodes/AppAsideProject.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     AreaFormSelectedCover: typeof import('./src/components/Areas/AreaFrom/AreaFormSelectedCover.vue')['default']
     AreaList: typeof import('./src/components/Areas/AreaList.vue')['default']
     Areas: typeof import('./src/components/Areas/Areas.vue')['default']
+    Card: typeof import('./src/components/common/Card/Card.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']

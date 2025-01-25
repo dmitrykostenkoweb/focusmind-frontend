@@ -6,16 +6,16 @@
       icon="Plus"
       type="primary"
       size="small"
-      @click="areaInteractionStore.openCreateDialog()"
+      @click="interactionStore.openCreateDialog()"
       >Add</el-button
     >
   </header>
   <div class="grid-container">
-    <area-card
-      v-for="area in areaApiStore.areas"
-      :key="area.id"
-      :area
-      @edit="areaInteractionStore.openEditDialog(area)"
+    <card
+      v-for="entity in areaApiStore.areas"
+      :key="entity.id"
+      :entity
+      @edit="interactionStore.openEditDialog(entity)"
     />
   </div>
   <area-form />
@@ -23,12 +23,12 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
-import AreaCard from './AreaCard/AreaCard.vue'
+import { useAreaApiStore, useInteractionStore } from '@/stores'
 import AreaForm from './AreaForm/AreaForm.vue'
+import { Card } from '@/components/common'
 
 const areaApiStore = useAreaApiStore()
-const areaInteractionStore = useAreaInteractionStore()
+const interactionStore = useInteractionStore()
 
 onMounted(async () => await areaApiStore.fetchAreas())
 </script>

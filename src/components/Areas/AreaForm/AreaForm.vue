@@ -1,45 +1,37 @@
 <template>
-  <el-dialog v-model="areaInteractionStore.dialogVisible" :title="modalTitle" width="600">
-    <add-form
-      :entity="area"
-      :mode
-      :loading
-      @close="closeDialog"
-      @submit="onSubmit"
-      @delete="deleteAreaHandler"
-    />
-  </el-dialog>
+  <add-form-dialog
+    :loading
+    :modalTitle
+    @close="closeDialog"
+    @edit="handleEdit"
+    @create="handleAdd"
+    @delete="deleteAreaHandler"
+  />
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { AxiosError } from 'axios'
-import { AddForm } from '@/components/common'
-import { useAreaApiStore, useAreaInteractionStore } from '@/stores'
+import { AddFormDialog } from '@/components/common'
+import { useAreaApiStore, useInteractionStore } from '@/stores'
 import type { Area } from '@/models'
 
 type Form = Omit<Area, 'id'>
 
 // Stores
-const areaInteractionStore = useAreaInteractionStore()
+const interactionStore = useInteractionStore()
 const areaApiStore = useAreaApiStore()
 
 // Computed properties
-const mode = computed<'create' | 'update'>(() => areaInteractionStore.formMode)
-const area = computed<Area | null>(() => areaInteractionStore.selectedArea)
+const area = computed<Area | null>(() => interactionStore.selectedEntity)
 const error = computed<AxiosError | string | null>(() => areaApiStore.error)
 const loading = computed<boolean>(() => areaApiStore.isLoading)
 const modalTitle = computed<string>(() =>
-  areaInteractionStore.formMode === 'create'
+  interactionStore.formMode === 'create'
     ? 'Create New Area'
-    : `Edit Area: ${areaInteractionStore.selectedArea?.name || ''}`,
+    : `Edit Area: ${interactionStore.selectedEntity?.name || ''}`,
 )
-
-const onSubmit = async (payload: Form): Promise<void> => {
-  if (mode.value === 'update') await handleEdit(payload)
-  else await handleAdd(payload)
-}
 
 const handleEdit = async (payload: Form): Promise<void> => {
   if (!area.value?.id) {
@@ -80,7 +72,7 @@ const deleteAreaHandler = async (): Promise<void> => {
 }
 
 const closeDialog = (): void => {
-  areaInteractionStore.closeDialog()
+  interactionStore.closeDialog()
 }
 
 // Utility functions

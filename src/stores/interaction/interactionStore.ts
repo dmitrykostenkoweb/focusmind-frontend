@@ -1,28 +1,28 @@
 import { defineStore } from 'pinia'
-import type { Area } from '@/models/area.model'
+import type { Entity } from '@/models'
 
 interface State {
   dialogVisible: boolean
   formMode: 'create' | 'update'
-  selectedArea: Area | null
+  selectedEntity: Entity | null
 }
 
-export const useAreaInteractionStore = defineStore('area-interaction-store', {
+export const useInteractionStore = defineStore('interaction-store', {
   state: (): State => ({
     dialogVisible: false,
     formMode: 'create',
-    selectedArea: null,
+    selectedEntity: null,
   }),
 
   actions: {
     openCreateDialog() {
-      this.selectedArea = null
+      this.selectedEntity = null
       this.formMode = 'create'
       this.dialogVisible = true
     },
 
-    openEditDialog(area: Area) {
-      this.selectedArea = area
+    openEditDialog(entity: Entity) {
+      this.selectedEntity = entity
       this.formMode = 'update'
       this.dialogVisible = true
     },

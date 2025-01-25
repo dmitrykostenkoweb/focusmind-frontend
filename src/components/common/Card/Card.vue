@@ -1,23 +1,23 @@
 <template>
-  <el-card :style="{ background, color }" class="area-card" shadow="hover">
+  <el-card :style="{ background, color }" class="entity-card" shadow="hover">
     <template #header>
-      <div class="area-card__header">
-        <p class="area-card__name">{{ area.name }}</p>
+      <div class="entity-card__header">
+        <p class="entity-card__name">{{ entity.name }}</p>
         <el-button type="info" size="large" :icon="Edit" @click="emit('edit')" />
       </div>
     </template>
-    <div class="area-card__cover-wrapper">
-      <el-image class="area-card__cover" lazy :src="area.imageUrl" fit="cover">
+    <div class="entity-card__cover-wrapper">
+      <el-image class="entity-card__cover" lazy :src="entity.imageUrl" fit="cover">
         <template #error>
-          <div class="area-card__image-slot">
+          <div class="entity-card__image-slot">
             <el-icon><PictureFilled /></el-icon>
           </div>
         </template>
       </el-image>
     </div>
     <template #footer>
-      <p class="area-card__description">
-        {{ area.description }}
+      <p class="entity-card__description">
+        {{ entity.description }}
       </p>
     </template>
   </el-card>
@@ -26,21 +26,21 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Edit, PictureFilled } from '@element-plus/icons-vue'
-import type { Area } from '@/models'
+import type { Entity } from '@/models'
 import { hexToRgba, isLightColor } from '@/utils'
 
 interface Props {
-  area: Area
+  entity: Entity
 }
 
 interface Emits {
   (e: 'edit'): void
 }
 
-const { area } = defineProps<Props>()
+const { entity } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const background = computed<string>(() => (area.hex ? hexToRgba(area.hex, 0.5) : '#fff'))
+const background = computed<string>(() => (entity.hex ? hexToRgba(entity.hex, 0.5) : '#fff'))
 const color = computed(() => {
   const match = background.value?.match(/\d+/g)?.map(Number)
   if (!match || match.length < 3) return '#303133'
@@ -50,7 +50,7 @@ const color = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.area-card {
+.entity-card {
   max-width: 480px;
 
   &__header {
