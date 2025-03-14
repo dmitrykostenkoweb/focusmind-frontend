@@ -11,7 +11,7 @@
     >
   </header>
   <div class="grid-container">
-    <card
+    <card-component
       v-for="entity in areaApiStore.areas"
       :key="entity.id"
       :entity
@@ -23,9 +23,10 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useAreaApiStore, useInteractionStore } from '@/stores'
+import { useAreaApiStore } from '@/stores/area/areaApiStore'
+import { useInteractionStore } from '@/stores/interaction/interactionStore'
 import AreaForm from './AreaForm/AreaForm.vue'
-import { Card } from '@/components/common'
+import CardComponent from '@/components/common/CardComponent/CardComponent.vue'
 
 const areaApiStore = useAreaApiStore()
 const interactionStore = useInteractionStore()

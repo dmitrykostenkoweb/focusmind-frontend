@@ -11,7 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { AppAsideArea, AppAsideProject, AppAsideTask } from './AppAsideNodes'
+import AppAsideArea from './AppAsideNodes/AppAsideArea.vue'
+import AppAsideProject from './AppAsideNodes/AppAsideProject.vue'
+import AppAsideTask from './AppAsideNodes/AppAsideTask.vue'
 </script>
 
 <style scoped></style>

@@ -13,12 +13,13 @@
 import { computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { AxiosError } from 'axios'
-import { AddFormDialog } from '@/components/common'
-import { useAreaApiStore, useInteractionStore } from '@/stores'
-import type { Area } from '@/models'
+import AddFormDialog from '@/components/common/AddFormDialog/AddFormDialog.vue'
+import { useAreaApiStore } from '@/stores/area/areaApiStore'
+import { useInteractionStore } from '@/stores/interaction/interactionStore'
+import type { Area } from '@/models/area.model'
 import { showMessage } from '@/utils'
 
-type Form = Omit<Area, 'id'>
+type Form = Pick<Area, 'name' | 'description' | 'hex' | 'imageUrl'>
 
 // Stores
 const interactionStore = useInteractionStore()

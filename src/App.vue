@@ -16,8 +16,8 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import AppAside from '@/components/AppAside'
-import AppHeader from '@/components/AppHeader'
+import AppAside from '@/components/AppAside/AppAside.vue'
+import AppHeader from '@/components/AppHeader/AppHeader.vue'
 </script>
 <style scoped lang="scss">
 .app {

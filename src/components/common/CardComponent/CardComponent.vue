@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Edit, PictureFilled } from '@element-plus/icons-vue'
-import type { Entity } from '@/models'
+import type { Entity } from '@/models/entity.model'
 import { hexToRgba, isLightColor } from '@/utils'
 
 interface Props {
