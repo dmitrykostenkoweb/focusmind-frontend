@@ -1,3 +1,5 @@
+import { ElMessage } from 'element-plus'
+
 export function hexToRgba(hex: string, alpha: number = 1): string {
   hex = hex.replace(/^#/, '')
 
@@ -21,4 +23,8 @@ export function isLightColor(r: number, g: number, b: number): boolean {
   const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
 
   return luminance > 128
+}
+
+export const showMessage = (message: string, type: 'success' | 'error' | 'info') => {
+  ElMessage({ message, type, plain: true })
 }

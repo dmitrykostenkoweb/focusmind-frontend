@@ -57,5 +57,21 @@ export const useProjectApiStore = defineStore('project-api-store', {
         this.isLoading = false
       }
     },
+
+    async updateProject(id: number, updatedProject: Omit<Project, 'id'>) {
+      this.isLoading = true
+      this.error = null
+      try {
+        const response = await axiosInstance.put<Project>(`/projects/${id}`, updatedProject)
+        this.projects = this.projects.map((project) =>
+          project.id === response.data.id ? response.data : project,
+        )
+      } catch (err) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
+      } finally {
+        Project
+        this.isLoading = false
+      }
+    },
   },
 })

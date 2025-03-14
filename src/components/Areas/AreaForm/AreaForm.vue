@@ -11,11 +11,12 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { AxiosError } from 'axios'
 import { AddFormDialog } from '@/components/common'
 import { useAreaApiStore, useInteractionStore } from '@/stores'
 import type { Area } from '@/models'
+import { showMessage } from '@/utils'
 
 type Form = Omit<Area, 'id'>
 
@@ -84,9 +85,5 @@ const handleResponse = (successMessage: string) => {
     showMessage(successMessage, 'success')
     closeDialog()
   }
-}
-
-const showMessage = (message: string, type: 'success' | 'error' | 'info') => {
-  ElMessage({ message, type, plain: true })
 }
 </script>
