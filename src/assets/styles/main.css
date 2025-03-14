@@ -1,0 +1,19 @@
+@import './base.css';
+@import './owerwright.css';
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background: #fff;
+  background-image: url('@/assets/img/background.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
+}
