@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/services/axiosInstance'
 import type { AxiosError } from 'axios'
-import type { Project } from '@/models'
+import type { Project } from '@/models/project.model'
 
 interface State {
   projects: Project[]
@@ -69,7 +69,6 @@ export const useProjectApiStore = defineStore('project-api-store', {
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
-        Project
         this.isLoading = false
       }
     },

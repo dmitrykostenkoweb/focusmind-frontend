@@ -72,6 +72,7 @@ declare module 'vue' {
     Unsplash: typeof import('./src/components/common/Unsplash/Unsplash.vue')['default']
     UnsplashGallery: typeof import('./src/components/common/Unsplash/UnsplashGallery.vue')['default']
     UnsplashTrigger: typeof import('./src/components/common/Unsplash/UnsplashTrigger.vue')['default']
+    UnsplashWidget: typeof import('./src/components/common/Unsplash/UnsplashWidget.vue')['default']
     Upload: typeof import('./src/components/Areas/AreaFrom/Upload.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }

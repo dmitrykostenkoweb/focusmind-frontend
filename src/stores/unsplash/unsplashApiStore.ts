@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import unsplashService from '@/services/unsplashService.ts'
-import { useUnsplashInteractionStore } from '@/stores'
-import type { Photo } from '@/models'
+import { useUnsplashInteractionStore } from '@/stores/unsplash/unsplashInteractionStore'
+import type { Photo } from '@/models/unsplash.model'
 
 interface State {
   photos: Photo[]
@@ -26,7 +26,7 @@ export const useUnsplashApiStore = defineStore('unsplash-api-store', {
 
       try {
         const photos = await unsplashService.searchPhotos(query, page, perPage)
-        this.photos = photos
+        this.photos = photos as Photo[]
       } catch (error) {
         this.error = 'Failed to fetch photos'
         console.error(error)
@@ -42,7 +42,7 @@ export const useUnsplashApiStore = defineStore('unsplash-api-store', {
       const unsplashInteractionStore = useUnsplashInteractionStore()
 
       try {
-        this.randomPhoto = await unsplashService.getRandomPhoto()
+        this.randomPhoto = (await unsplashService.getRandomPhoto()) as Photo
         unsplashInteractionStore.setSelectedPhoto(this.randomPhoto)
       } catch (error) {
         this.error = 'Failed to fetch random photo'

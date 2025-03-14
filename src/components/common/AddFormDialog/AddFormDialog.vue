@@ -21,7 +21,7 @@
             </el-tag>
             <el-button size="small" style="width: 120px" v-else>Add</el-button>
           </template>
-          <unsplash v-model="form.imageUrl" v-model:hex="form.hex" />
+          <unsplash-widget v-model="form.imageUrl" v-model:hex="form.hex" />
         </el-popover>
       </el-form-item>
       <el-form-item v-if="mode === 'update'" label="Delete Area">
@@ -42,9 +42,10 @@
 <script lang="ts" setup>
 import { computed, reactive, watch } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
-import { UnsplashGallery, Unsplash } from '@/components/common'
-import { useInteractionStore } from '@/stores'
-import type { Entity } from '@/models'
+import UnsplashGallery from '@/components/common/Unsplash/UnsplashGallery.vue'
+import UnsplashWidget from '@/components/common/Unsplash/UnsplashWidget.vue'
+import { useInteractionStore } from '@/stores/interaction/interactionStore'
+import type { Entity } from '@/models/entity.model'
 
 type Form = Omit<Entity, 'id'>
 

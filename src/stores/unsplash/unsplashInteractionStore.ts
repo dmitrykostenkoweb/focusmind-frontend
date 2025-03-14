@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Photo } from '@/models'
+import type { Photo } from '@/models/unsplash.model'
 
 interface State {
   galleryVisible: boolean

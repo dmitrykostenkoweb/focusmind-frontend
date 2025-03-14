@@ -28,7 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { useUnsplashInteractionStore, useUnsplashApiStore } from '@/stores'
+import { useUnsplashInteractionStore } from '@/stores/unsplash/unsplashInteractionStore'
+import { useUnsplashApiStore } from '@/stores/unsplash/unsplashApiStore'
 
 const unsplashApiStore = useUnsplashApiStore()
 const unsplashInteractionStore = useUnsplashInteractionStore()

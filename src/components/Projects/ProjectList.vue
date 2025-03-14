@@ -11,7 +11,7 @@
     >
   </header>
   <div class="grid-container">
-    <card
+    <card-component
       v-for="entity in projectApiStore.projects"
       :key="entity.id"
       :entity
@@ -22,8 +22,9 @@
 
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue'
-import { useInteractionStore, useProjectApiStore } from '@/stores'
-import { Card } from '@/components/common'
+import { useInteractionStore } from '@/stores/interaction/interactionStore'
+import { useProjectApiStore } from '@/stores/project/projectApiStore'
+import CardComponent from '@/components/common/CardComponent/CardComponent.vue'
 
 const projectApiStore = useProjectApiStore()
 const interactionStore = useInteractionStore()

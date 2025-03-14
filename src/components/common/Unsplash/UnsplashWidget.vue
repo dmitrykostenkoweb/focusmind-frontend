@@ -43,9 +43,10 @@
 </template>
 <script setup lang="ts">
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
-import { IconUnsplash } from '@/components/icons'
-import { useUnsplashApiStore, useUnsplashInteractionStore } from '@/stores'
-import type { Photo } from '@/models'
+import IconUnsplash from '@/components/icons/IconUnsplash.vue'
+import { useUnsplashApiStore } from '@/stores/unsplash/unsplashApiStore'
+import { useUnsplashInteractionStore } from '@/stores/unsplash/unsplashInteractionStore'
+import type { Photo } from '@/models/unsplash.model'
 import type { InputInstance } from 'element-plus'
 
 const url = defineModel<string>()

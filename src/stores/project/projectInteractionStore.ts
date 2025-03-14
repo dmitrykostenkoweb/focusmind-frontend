@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Project } from '@/models'
+import type { Project } from '@/models/project.model'
 
 interface State {
   dialogVisible: boolean
