@@ -4,11 +4,17 @@
       <el-form-item label="Name">
         <el-input v-model="form.name" />
       </el-form-item>
+
       <el-form-item label="Description">
         <el-input v-model="form.description" type="textarea" />
       </el-form-item>
+
       <el-form-item v-if="interactionStore.formType === 'project'" label="Assign to Area">
-        <el-select v-model="selectedArea" placeholder="Select Area" style="width: 240px">
+        <el-select
+          v-model="(form as FormProjectEntity).areaId"
+          placeholder="Select Area"
+          style="width: 240px"
+        >
           <el-option
             v-for="item in areaOptions"
             :key="item.value"
@@ -17,6 +23,37 @@
           />
         </el-select>
       </el-form-item>
+
+      <el-form-item v-if="interactionStore.formType === 'task'" label="Assign to Project">
+        <el-select
+          v-model="(form as FormTaskEntity).projectId"
+          placeholder="Select Project"
+          style="width: 240px"
+        >
+          <el-option
+            v-for="item in areaOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item v-if="interactionStore.formType !== 'area'" label="Select Status">
+        <el-select
+          v-model="(form as FormProjectEntity | FormTaskEntity).status"
+          placeholder="Select Status"
+          style="width: 240px"
+        >
+          <el-option
+            v-for="item in statusesOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item style="display: flex; flex-direction: column" label="Cover" name="imageUrl">
         <el-popover placement="right" :width="400" trigger="hover">
           <template #reference>
@@ -34,6 +71,7 @@
           <unsplash-widget v-model="form.imageUrl" />
         </el-popover>
       </el-form-item>
+
       <el-form-item v-if="mode === 'update'" label="Delete Area">
         <el-button :loading="loading" @click="emit('delete')" type="danger" :icon="Delete" />
       </el-form-item>
@@ -58,10 +96,18 @@ import UnsplashWidget from '@/components/common/Unsplash/UnsplashWidget.vue'
 
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
 import { useAreaApiStore } from '@/stores/area/areaApiStore'
+import { useProjectApiStore } from '@/stores/project/projectApiStore'
 
 import { createInitialForm } from '@/components/common/AddFormDialog/form.utils'
+import { statusesOptions } from '@/constants'
 
-import type { EntityTypeMap, EntityType, FormEntityTypeMap } from '@/models/entity.model'
+import type {
+  EntityTypeMap,
+  EntityType,
+  FormEntityTypeMap,
+  FormProjectEntity,
+  FormTaskEntity,
+} from '@/models/entity.model'
 
 interface Props {
   modalTitle: string
@@ -69,9 +115,9 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'delete'): void
   <T extends EntityType>(e: 'edit', form: FormEntityTypeMap[T]): void
   <T extends EntityType>(e: 'create', form: FormEntityTypeMap[T]): void
+  (e: 'delete'): void
   (e: 'close'): void
 }
 
@@ -85,12 +131,21 @@ const entity = computed<EntityTypeMap[EntityType] | null>(() => interactionStore
 
 //Project
 const areaApiStore = useAreaApiStore()
-const selectedArea = ref<number | undefined>(undefined)
 
 const areaOptions = computed<{ value: number; label: string }[]>(() =>
   areaApiStore.areas.map((area) => ({
     value: area.id,
     label: area.name,
+  })),
+)
+
+//Task
+const projectApiStore = useProjectApiStore()
+
+const projectOptions = computed<{ value: number; label: string }[]>(() =>
+  projectApiStore.projects.map((project) => ({
+    value: project.id,
+    label: project.name,
   })),
 )
 

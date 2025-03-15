@@ -20,7 +20,7 @@ export interface AreaEntity extends BaseEntity {
 export type FormAreaEntity = Omit<AreaEntity, 'id'>
 
 export interface ProjectEntity extends BaseEntity {
-  areaId: number | null
+  areaId: number | undefined
   status: Status
   imageUrl: string
 }
@@ -28,7 +28,7 @@ export interface ProjectEntity extends BaseEntity {
 export type FormProjectEntity = Omit<ProjectEntity, 'id'>
 
 export interface TaskEntity extends BaseEntity {
-  projectId: number | null
+  projectId: number | undefined
   status: Status
   imageUrl: string
 }

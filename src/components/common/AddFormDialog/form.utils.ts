@@ -7,7 +7,7 @@ import type {
 } from '@/models/entity.model'
 
 export const createInitialForm = <T extends EntityType>(type: T): BaseFormEntity => {
-  const baseForm = {
+  const baseForm: BaseFormEntity = {
     name: '',
     description: '',
   }
@@ -22,7 +22,7 @@ export const createInitialForm = <T extends EntityType>(type: T): BaseFormEntity
     case 'project':
       return {
         ...baseForm,
-        areaId: null,
+        areaId: undefined,
         status: 'Inbox',
         imageUrl: '',
       } as unknown as FormProjectEntity
@@ -30,7 +30,7 @@ export const createInitialForm = <T extends EntityType>(type: T): BaseFormEntity
     case 'task':
       return {
         ...baseForm,
-        projectId: null,
+        projectId: undefined,
         status: 'Inbox',
       } as unknown as FormTaskEntity
 
