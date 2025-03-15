@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/services/axiosInstance'
-import type { Area } from '@/models/area.model'
+import type { AreaEntity } from '@/models/entity.model'
 import type { AxiosError } from 'axios'
 
 interface State {
-  areas: Area[]
-  selectedArea: Area | null
+  areas: AreaEntity[]
+  selectedArea: AreaEntity | null
   isLoading: boolean
   error: null | AxiosError | string
 }
@@ -23,7 +23,7 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<Area[]>('/areas')
+        const response = await axiosInstance.get<AreaEntity[]>('/areas')
         this.areas = response.data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -36,7 +36,7 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<Area>(`/areas/${id}`)
+        const response = await axiosInstance.get<AreaEntity>(`/areas/${id}`)
         this.selectedArea = response.data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -45,11 +45,11 @@ export const useAreaApiStore = defineStore('area-api-store', {
       }
     },
 
-    async createArea(newArea: Omit<Area, 'id'>) {
+    async createArea(newArea: Omit<AreaEntity, 'id'>) {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.post<Area>('/areas', newArea)
+        const response = await axiosInstance.post<AreaEntity>('/areas', newArea)
         this.areas.push(response.data) // Dodaj do listy po udanym zapisie
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -58,11 +58,14 @@ export const useAreaApiStore = defineStore('area-api-store', {
       }
     },
 
-    async updateArea(updatedArea: Area) {
+    async updateArea(updatedArea: AreaEntity) {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.put<Area>(`/areas/${updatedArea.id}`, updatedArea)
+        const response = await axiosInstance.put<AreaEntity>(
+          `/areas/${updatedArea.id}`,
+          updatedArea,
+        )
         const index = this.areas.findIndex((area) => area.id === updatedArea.id)
         if (index !== -1) {
           this.areas[index] = response.data

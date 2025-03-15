@@ -13,20 +13,22 @@
 import { computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { AxiosError } from 'axios'
+
 import AddFormDialog from '@/components/common/AddFormDialog/AddFormDialog.vue'
+
 import { useAreaApiStore } from '@/stores/area/areaApiStore'
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
-import type { Area } from '@/models/area.model'
+
 import { showMessage } from '@/utils'
 
-type Form = Pick<Area, 'name' | 'description' | 'hex' | 'imageUrl'>
+import type { AreaEntity, FormAreaEntity } from '@/models/entity.model'
 
 // Stores
 const interactionStore = useInteractionStore()
 const areaApiStore = useAreaApiStore()
 
 // Computed properties
-const area = computed<Area | null>(() => interactionStore.selectedEntity)
+const area = computed<AreaEntity | null>(() => interactionStore.selectedEntity)
 const error = computed<AxiosError | string | null>(() => areaApiStore.error)
 const loading = computed<boolean>(() => areaApiStore.isLoading)
 const modalTitle = computed<string>(() =>
@@ -35,7 +37,7 @@ const modalTitle = computed<string>(() =>
     : `Edit Area: ${interactionStore.selectedEntity?.name || ''}`,
 )
 
-const handleEdit = async (payload: Form): Promise<void> => {
+const handleEdit = async (payload: FormAreaEntity): Promise<void> => {
   if (!area.value?.id) {
     showMessage('Area not found!', 'error')
     return
@@ -45,7 +47,7 @@ const handleEdit = async (payload: Form): Promise<void> => {
   handleResponse('Area updated successfully!')
 }
 
-const handleAdd = async (payload: Form): Promise<void> => {
+const handleAdd = async (payload: FormAreaEntity): Promise<void> => {
   await areaApiStore.createArea(payload)
   handleResponse('Area created successfully!')
 }

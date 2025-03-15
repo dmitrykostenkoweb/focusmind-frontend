@@ -1,30 +1,30 @@
 import { defineStore } from 'pinia'
-import type { Entity } from '@/models/entity.model'
-import type { FormType, FormMode } from './interaction.types'
+import type { EntityType, EntityTypeMap } from '@/models/entity.model'
+import type { FormMode } from './interaction.types'
 interface State {
   dialogVisible: boolean
-  formType: FormType
+  formType: EntityType
   formMode: FormMode
-  selectedEntity: Entity | null
+  selectedEntity: EntityTypeMap[EntityType] | null
 }
 
 export const useInteractionStore = defineStore('interaction-store', {
   state: (): State => ({
     dialogVisible: false,
-    formType: null,
+    formType: 'area',
     formMode: 'create',
     selectedEntity: null,
   }),
 
   actions: {
-    openCreateDialog(formType: FormType) {
+    openCreateDialog(formType: EntityType) {
       this.selectedEntity = null
       this.formMode = 'create'
       this.formType = formType
       this.dialogVisible = true
     },
 
-    openEditDialog(entity: Entity, formType: FormType) {
+    openEditDialog(entity: EntityTypeMap[EntityType], formType: EntityType) {
       this.selectedEntity = entity
       this.formMode = 'update'
       this.formType = formType
@@ -33,7 +33,7 @@ export const useInteractionStore = defineStore('interaction-store', {
 
     closeDialog() {
       this.dialogVisible = false
-      this.formType = null
+      this.formType = 'area'
     },
   },
 })

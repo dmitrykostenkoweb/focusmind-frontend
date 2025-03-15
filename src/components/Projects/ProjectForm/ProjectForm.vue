@@ -13,20 +13,24 @@
 import { computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { AxiosError } from 'axios'
+
 import AddFormDialog from '@/components/common/AddFormDialog/AddFormDialog.vue'
+
 import { useProjectApiStore } from '@/stores/project/projectApiStore'
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
-import type { Project } from '@/models/project.model'
+
 import { showMessage } from '@/utils'
 
-type Form = Pick<Project, 'name' | 'description' | 'areaId' | 'status'>
+import type { FormProjectEntity, ProjectEntity } from '@/models/entity.model'
 
 // Stores
 const interactionStore = useInteractionStore()
 const projectApiStore = useProjectApiStore()
 
 // Computed properties
-const project = computed<Project | null>(() => interactionStore.selectedEntity as Project | null)
+const project = computed<ProjectEntity | null>(
+  () => interactionStore.selectedEntity as ProjectEntity | null,
+)
 const error = computed<AxiosError | string | null>(() => projectApiStore.error)
 const loading = computed<boolean>(() => projectApiStore.isLoading)
 const modalTitle = computed<string>(() =>
@@ -35,7 +39,7 @@ const modalTitle = computed<string>(() =>
     : `Edit Project: ${interactionStore.selectedEntity?.name || ''}`,
 )
 
-const handleEdit = async (payload: Form): Promise<void> => {
+const handleEdit = async (payload: FormProjectEntity): Promise<void> => {
   if (!project.value?.id) {
     showMessage('Project not found!', 'error')
     return
@@ -45,7 +49,7 @@ const handleEdit = async (payload: Form): Promise<void> => {
   handleResponse('Project updated successfully!')
 }
 
-const handleAdd = async (payload: Form): Promise<void> => {
+const handleAdd = async (payload: FormProjectEntity): Promise<void> => {
   await projectApiStore.createProject(payload)
   handleResponse('Project created successfully!')
 }

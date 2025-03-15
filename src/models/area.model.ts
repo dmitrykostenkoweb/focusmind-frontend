@@ -1,7 +1,0 @@
-export interface Area {
-  id: number
-  name: string
-  description?: string
-  imageUrl?: string
-  hex?: string
-}

@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import axiosInstance from '@/services/axiosInstance'
 import type { AxiosError } from 'axios'
-import type { Project } from '@/models/project.model'
+import type { ProjectEntity } from '@/models/entity.model'
 
 interface State {
-  projects: Project[]
-  selectedProject: Project | null
+  projects: ProjectEntity[]
+  selectedProject: ProjectEntity | null
   isLoading: boolean
   error: null | AxiosError | string
 }
@@ -23,7 +23,7 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<Project[]>('/projects')
+        const response = await axiosInstance.get<ProjectEntity[]>('/projects')
         this.projects = response.data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -36,7 +36,7 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<Project>(`/projects/${id}`)
+        const response = await axiosInstance.get<ProjectEntity>(`/projects/${id}`)
         this.selectedProject = response.data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -45,11 +45,11 @@ export const useProjectApiStore = defineStore('project-api-store', {
       }
     },
 
-    async createProject(newProject: Omit<Project, 'id'>) {
+    async createProject(newProject: Omit<ProjectEntity, 'id'>) {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.post<Project>('/projects', newProject)
+        const response = await axiosInstance.post<ProjectEntity>('/projects', newProject)
         this.projects.push(response.data)
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -58,11 +58,11 @@ export const useProjectApiStore = defineStore('project-api-store', {
       }
     },
 
-    async updateProject(updatedProject: Project) {
+    async updateProject(updatedProject: ProjectEntity) {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.put<Project>(
+        const response = await axiosInstance.put<ProjectEntity>(
           `/projects/${updatedProject.id}`,
           updatedProject,
         )
