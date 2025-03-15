@@ -13,7 +13,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: { api: 'modern-compiler' },
-    }
+    },
   },
   server: {
     port: 5173,
@@ -31,7 +31,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 })

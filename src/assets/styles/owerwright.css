@@ -2,21 +2,18 @@
 
 .el-card {
   border-color: transparent !important;
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
+}
+
+.el-card__body {
+  padding: 16px !important;
 }
 
 .el-card__header {
   border-bottom: none !important;
+  padding: 16px !important;
 }
 
 .el-card__footer {
   border-top: none !important;
-}
-
-/* button */
-
-.el-button {
-  border-color: transparent !important;
+  padding: 16px !important;
 }

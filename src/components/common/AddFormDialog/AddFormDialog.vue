@@ -114,4 +114,11 @@ watch(
   },
   { immediate: true },
 )
+
+watch(
+  () => interactionStore.dialogVisible,
+  (newValue) => {
+    if (!newValue) clearForm()
+  },
+)
 </script>

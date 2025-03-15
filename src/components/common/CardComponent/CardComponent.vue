@@ -16,9 +16,11 @@
       </el-image>
     </div>
     <template #footer>
-      <p class="entity-card__description">
-        {{ entity.description }}
-      </p>
+      <el-tooltip :content="entity.description" placement="top" effect="light">
+        <p class="entity-card__description">
+          {{ entity.description }}
+        </p>
+      </el-tooltip>
     </template>
   </el-card>
 </template>
