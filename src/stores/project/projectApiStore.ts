@@ -50,7 +50,7 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.error = null
       try {
         const response = await axiosInstance.post<Project>('/projects', newProject)
-        this.projects.push(response.data) // Add to the list after successful save
+        this.projects.push(response.data)
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -58,14 +58,30 @@ export const useProjectApiStore = defineStore('project-api-store', {
       }
     },
 
-    async updateProject(id: number, updatedProject: Omit<Project, 'id'>) {
+    async updateProject(updatedProject: Project) {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.put<Project>(`/projects/${id}`, updatedProject)
+        const response = await axiosInstance.put<Project>(
+          `/projects/${updatedProject.id}`,
+          updatedProject,
+        )
         this.projects = this.projects.map((project) =>
           project.id === response.data.id ? response.data : project,
         )
+      } catch (err) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async deleteProject(id: number) {
+      this.isLoading = true
+      this.error = null
+      try {
+        await axiosInstance.delete(`/projects/${id}`)
+        this.projects = this.projects.filter((project) => project.id !== id)
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {

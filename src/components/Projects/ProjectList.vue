@@ -6,7 +6,7 @@
       icon="Plus"
       type="primary"
       size="small"
-      @click="interactionStore.openCreateDialog()"
+      @click="interactionStore.openCreateDialog('project')"
       >Add</el-button
     >
   </header>
@@ -15,9 +15,10 @@
       v-for="entity in projectApiStore.projects"
       :key="entity.id"
       :entity
-      @edit="interactionStore.openEditDialog(entity)"
+      @edit="interactionStore.openEditDialog(entity, 'project')"
     />
   </div>
+  <project-form v-if="interactionStore.formType === 'project'" />
 </template>
 
 <script lang="ts" setup>
@@ -25,7 +26,7 @@ import { computed, onMounted } from 'vue'
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
 import { useProjectApiStore } from '@/stores/project/projectApiStore'
 import CardComponent from '@/components/common/CardComponent/CardComponent.vue'
-
+import ProjectForm from './ProjectForm/ProjectForm.vue'
 const projectApiStore = useProjectApiStore()
 const interactionStore = useInteractionStore()
 

@@ -6,7 +6,7 @@
       icon="Plus"
       type="primary"
       size="small"
-      @click="interactionStore.openCreateDialog()"
+      @click="interactionStore.openCreateDialog('area')"
       >Add</el-button
     >
   </header>
@@ -15,10 +15,10 @@
       v-for="entity in areaApiStore.areas"
       :key="entity.id"
       :entity
-      @edit="interactionStore.openEditDialog(entity)"
+      @edit="interactionStore.openEditDialog(entity, 'area')"
     />
   </div>
-  <area-form />
+  <area-form v-if="interactionStore.formType === 'area'" />
 </template>
 
 <script setup lang="ts">
