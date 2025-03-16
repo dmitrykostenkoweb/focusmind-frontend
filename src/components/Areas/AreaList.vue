@@ -20,7 +20,7 @@
 import { onMounted } from 'vue'
 import { useAreaApiStore } from '@/stores/area/areaApiStore'
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
-import AreaForm from './AreaForm/AreaForm.vue'
+import AreaForm from './AreaForm.vue'
 import CardComponent from '@/components/common/CardComponent/CardComponent.vue'
 
 const areaApiStore = useAreaApiStore()

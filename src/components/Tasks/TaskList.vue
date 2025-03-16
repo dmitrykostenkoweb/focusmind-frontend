@@ -21,7 +21,7 @@ import { onMounted } from 'vue'
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
 import { useTaskApiStore } from '@/stores/task/taskApiStore'
 import CardComponent from '@/components/common/CardComponent/CardComponent.vue'
-import TaskForm from './TaskForm/TaskForm.vue'
+import TaskForm from './TaskForm.vue'
 
 const taskApiStore = useTaskApiStore()
 const interactionStore = useInteractionStore()

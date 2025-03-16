@@ -21,7 +21,7 @@ import { onMounted } from 'vue'
 import { useInteractionStore } from '@/stores/interaction/interactionStore'
 import { useProjectApiStore } from '@/stores/project/projectApiStore'
 import CardComponent from '@/components/common/CardComponent/CardComponent.vue'
-import ProjectForm from './ProjectForm/ProjectForm.vue'
+import ProjectForm from './ProjectForm.vue'
 const projectApiStore = useProjectApiStore()
 const interactionStore = useInteractionStore()
 
