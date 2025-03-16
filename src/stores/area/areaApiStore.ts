@@ -6,6 +6,7 @@ import type { AxiosError } from 'axios'
 interface State {
   areas: AreaEntity[]
   selectedArea: AreaEntity | null
+  fetchedArea: AreaEntity | null
   isLoading: boolean
   error: null | AxiosError | string
 }
@@ -14,6 +15,7 @@ export const useAreaApiStore = defineStore('area-api-store', {
   state: (): State => ({
     areas: [],
     selectedArea: null,
+    fetchedArea: null,
     isLoading: false,
     error: null,
   }),
@@ -47,7 +49,7 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.error = null
       try {
         const { data } = await axiosInstance.get<AreaEntity>(`/areas/${id}`)
-        this.selectedArea = data
+        this.fetchedArea = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {

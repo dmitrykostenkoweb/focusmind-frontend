@@ -1,9 +1,27 @@
 <template>
   <el-card class="entity-card" shadow="hover">
+    <div class="entity-card__status">
+      <el-tag effect="dark" v-if="(entity as ProjectEntity | TaskEntity).status" :type="statusType">
+        {{ (entity as ProjectEntity | TaskEntity).status }}
+      </el-tag>
+      <el-tag effect="plain" v-if="(entity as ProjectEntity).areaId" type="info">
+        <el-icon><Compass /></el-icon>
+        {{ areaApiStore.fetchedArea?.name }}</el-tag
+      >
+
+      <el-tag effect="plain" v-if="(entity as TaskEntity).projectId" type="info">
+        <el-icon><List /></el-icon> {{ projectApiStore.fetchedProject?.name }}
+      </el-tag>
+    </div>
     <template #header>
       <div class="entity-card__header">
-        <p class="entity-card__name">{{ entity.name }}</p>
-        <el-button circle :icon="Edit" @click="emit('edit')" />
+        <div class="entity-card__name">
+          <el-icon v-if="entity.entityType === 'area'"><Compass /></el-icon>
+          <el-icon v-if="entity.entityType === 'project'"><List /></el-icon>
+          <el-icon v-if="entity.entityType === 'task'"><CircleCheck /></el-icon>
+          {{ entity.name }}
+        </div>
+        <el-button :icon="Edit" @click="emit('edit')" />
       </div>
     </template>
     <div class="entity-card__cover-wrapper">
@@ -26,12 +44,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Edit, PictureFilled } from '@element-plus/icons-vue'
-import type { Entity } from '@/models/entity.model'
+import type { EntityTypeMap, ProjectEntity, TaskEntity } from '@/models/entity.model'
+import { useAreaApiStore } from '@/stores/area/areaApiStore'
+import { useProjectApiStore } from '@/stores/project/projectApiStore'
 
 interface Props {
-  entity: Entity
+  entity: EntityTypeMap[keyof EntityTypeMap]
 }
 
 interface Emits {
@@ -40,11 +60,44 @@ interface Emits {
 
 const { entity } = defineProps<Props>()
 const emit = defineEmits<Emits>()
+
+const areaApiStore = useAreaApiStore()
+const projectApiStore = useProjectApiStore()
+
+const statusType = computed<'info' | 'warning' | 'success' | 'primary' | 'danger'>(() => {
+  const statusMap: Record<string, 'info' | 'warning' | 'success' | 'primary' | 'danger'> = {
+    Inbox: 'info',
+    'In Progress': 'primary',
+    Pause: 'warning',
+    Done: 'success',
+  }
+
+  return statusMap[(entity as ProjectEntity | TaskEntity).status] || 'info'
+})
+
+onMounted(async () => {
+  const areaId = (entity as ProjectEntity).areaId
+  const projectId = (entity as TaskEntity).projectId
+
+  if (areaId) await areaApiStore.fetchAreaById(areaId)
+  if (projectId) await projectApiStore.fetchProjectById(projectId)
+})
 </script>
 
 <style scoped lang="scss">
 .entity-card {
+  position: relative;
   max-width: 480px;
+  overflow: visible;
+
+  &__status {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   &__header {
     display: flex;
@@ -58,6 +111,10 @@ const emit = defineEmits<Emits>()
     white-space: nowrap;
     text-overflow: ellipsis;
     font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   &__cover-wrapper {

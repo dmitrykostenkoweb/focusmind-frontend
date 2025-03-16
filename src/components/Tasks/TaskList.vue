@@ -1,6 +1,6 @@
 <template>
   <header class="task-list__header">
-    <h3>Tasks</h3>
+    <h2>Tasks</h2>
     <el-button plain icon="Plus" size="small" @click="interactionStore.openCreateDialog('task')"
       >Add new task</el-button
     >

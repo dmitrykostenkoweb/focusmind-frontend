@@ -6,6 +6,7 @@ import type { ProjectEntity } from '@/models/entity.model'
 interface State {
   projects: ProjectEntity[]
   selectedProject: ProjectEntity | null
+  fetchedProject: ProjectEntity | null
   isLoading: boolean
   error: null | AxiosError | string
 }
@@ -14,6 +15,7 @@ export const useProjectApiStore = defineStore('project-api-store', {
   state: (): State => ({
     projects: [],
     selectedProject: null,
+    fetchedProject: null,
     isLoading: false,
     error: null,
   }),
@@ -50,7 +52,7 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.error = null
       try {
         const { data } = await axiosInstance.get<ProjectEntity>(`/projects/${id}`)
-        this.selectedProject = data
+        this.fetchedProject = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {

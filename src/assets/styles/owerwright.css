@@ -1,9 +1,5 @@
 /* card */
 
-.el-card {
-  border-color: transparent !important;
-}
-
 .el-card__body {
   padding: 16px !important;
 }

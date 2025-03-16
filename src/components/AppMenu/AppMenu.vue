@@ -6,7 +6,7 @@
       :index="`${areaIndex}`"
     >
       <template #title>
-        <el-image class="menu__title-cover" lazy :src="area.imageUrl" fit="cover">
+        <el-image class="menu__title-cover" :src="area.imageUrl" fit="cover">
           <template #error>
             <el-icon class="menu__title-cover-error-icon"><Compass /></el-icon>
           </template>
@@ -19,7 +19,7 @@
         :index="`${areaIndex}-${projectIndex}`"
       >
         <template #title>
-          <el-image class="menu__title-cover" lazy :src="project.imageUrl" fit="cover">
+          <el-image class="menu__title-cover" :src="project.imageUrl" fit="cover">
             <template #error>
               <el-icon class="menu__title-cover-error-icon"><List /></el-icon>
             </template>
@@ -32,7 +32,7 @@
           :index="`${areaIndex}-${projectIndex}-${taskIndex}`"
         >
           <template #title>
-            <el-image class="menu__title-cover" lazy :src="task.imageUrl" fit="cover">
+            <el-image class="menu__title-cover" :src="task.imageUrl" fit="cover">
               <template #error>
                 <el-icon class="menu__title-cover-error-icon"><CircleCheck /></el-icon>
               </template>

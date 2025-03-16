@@ -3,6 +3,7 @@ import type { Status } from './shared.model'
 export type EntityType = 'area' | 'project' | 'task'
 
 export interface BaseEntity {
+  entityType: EntityType
   id: number
   name: string
   description: string
