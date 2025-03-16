@@ -23,8 +23,8 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<ProjectEntity[]>('/projects')
-        this.projects = response.data
+        const { data } = await axiosInstance.get<ProjectEntity[]>('/projects')
+        this.projects = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -36,8 +36,8 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<ProjectEntity>(`/projects/${id}`)
-        this.selectedProject = response.data
+        const { data } = await axiosInstance.get<ProjectEntity>(`/projects/${id}`)
+        this.selectedProject = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -49,8 +49,8 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.post<ProjectEntity>('/projects', newProject)
-        this.projects.push(response.data)
+        const { data } = await axiosInstance.post<ProjectEntity>('/projects', newProject)
+        this.projects.push(data)
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -62,13 +62,11 @@ export const useProjectApiStore = defineStore('project-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.put<ProjectEntity>(
+        const { data } = await axiosInstance.put<ProjectEntity>(
           `/projects/${updatedProject.id}`,
           updatedProject,
         )
-        this.projects = this.projects.map((project) =>
-          project.id === response.data.id ? response.data : project,
-        )
+        this.projects = this.projects.map((project) => (project.id === data.id ? data : project))
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {

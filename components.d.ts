@@ -71,6 +71,8 @@ declare module 'vue' {
     RandomPhoto: typeof import('./src/components/common/Unsplash/RandomPhoto.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TaskForm: typeof import('./src/components/Tasks/TaskForm/TaskForm.vue')['default']
+    TaskList: typeof import('./src/components/Tasks/TaskList.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     Unsplash: typeof import('./src/components/common/Unsplash/Unsplash.vue')['default']
     UnsplashGallery: typeof import('./src/components/common/Unsplash/UnsplashGallery.vue')['default']

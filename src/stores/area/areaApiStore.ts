@@ -23,8 +23,8 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<AreaEntity[]>('/areas')
-        this.areas = response.data
+        const { data } = await axiosInstance.get<AreaEntity[]>('/areas')
+        this.areas = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -36,8 +36,8 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.get<AreaEntity>(`/areas/${id}`)
-        this.selectedArea = response.data
+        const { data } = await axiosInstance.get<AreaEntity>(`/areas/${id}`)
+        this.selectedArea = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -49,8 +49,8 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.post<AreaEntity>('/areas', newArea)
-        this.areas.push(response.data) // Dodaj do listy po udanym zapisie
+        const { data } = await axiosInstance.post<AreaEntity>('/areas', newArea)
+        this.areas.push(data)
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
@@ -62,14 +62,11 @@ export const useAreaApiStore = defineStore('area-api-store', {
       this.isLoading = true
       this.error = null
       try {
-        const response = await axiosInstance.put<AreaEntity>(
+        const { data } = await axiosInstance.put<AreaEntity>(
           `/areas/${updatedArea.id}`,
           updatedArea,
         )
-        const index = this.areas.findIndex((area) => area.id === updatedArea.id)
-        if (index !== -1) {
-          this.areas[index] = response.data
-        }
+        this.areas = this.areas.map((area) => (area.id === data.id ? data : area))
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {

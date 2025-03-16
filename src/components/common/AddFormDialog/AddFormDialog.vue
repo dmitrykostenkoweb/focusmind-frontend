@@ -31,7 +31,7 @@
           style="width: 240px"
         >
           <el-option
-            v-for="item in areaOptions"
+            v-for="item in projectOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
