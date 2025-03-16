@@ -4,12 +4,22 @@
       <el-tag effect="dark" v-if="(entity as ProjectEntity | TaskEntity).status" :type="statusType">
         {{ (entity as ProjectEntity | TaskEntity).status }}
       </el-tag>
-      <el-tag effect="plain" v-if="(entity as ProjectEntity).areaId" type="info">
+      <el-tag
+        style="color: var(--el-text-color-basic)"
+        effect="plain"
+        v-if="(entity as ProjectEntity).areaId"
+        type="info"
+      >
         <el-icon><Compass /></el-icon>
         {{ areaApiStore.fetchedArea?.name }}</el-tag
       >
 
-      <el-tag effect="plain" v-if="(entity as TaskEntity).projectId" type="info">
+      <el-tag
+        style="color: var(--el-text-color-basic)"
+        effect="plain"
+        v-if="(entity as TaskEntity).projectId"
+        type="info"
+      >
         <el-icon><List /></el-icon> {{ projectApiStore.fetchedProject?.name }}
       </el-tag>
     </div>
@@ -110,7 +120,9 @@ onMounted(async () => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-weight: bold;
+    margin-right: 12px;
+
+    font-weight: 500;
 
     display: flex;
     align-items: center;
@@ -142,6 +154,8 @@ onMounted(async () => {
 
   &__description {
     width: 100%;
+
+    font-size: 14px;
 
     overflow: hidden;
     text-overflow: ellipsis;
