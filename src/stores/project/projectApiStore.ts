@@ -18,6 +18,19 @@ export const useProjectApiStore = defineStore('project-api-store', {
     error: null,
   }),
 
+  getters: {
+    projectOptions: (state) => {
+      return state.projects.map((project) => ({
+        value: project.id,
+        label: project.name,
+        img: project.imageUrl,
+      }))
+    },
+    getProjectsByAreaId: (state) => (areaId: number) => {
+      return state.projects.filter((project) => project.areaId === areaId)
+    },
+  },
+
   actions: {
     async fetchProjects() {
       this.isLoading = true

@@ -1,13 +1,8 @@
 <template>
   <header class="project-list__header">
     <h2>Projects</h2>
-    <el-button
-      round
-      icon="Plus"
-      type="primary"
-      size="small"
-      @click="interactionStore.openCreateDialog('project')"
-      >Add</el-button
+    <el-button plain icon="Plus" size="small" @click="interactionStore.openCreateDialog('project')"
+      >Add new project</el-button
     >
   </header>
   <div class="grid-container">
@@ -18,7 +13,7 @@
       @edit="interactionStore.openEditDialog(entity, 'project')"
     />
   </div>
-  <project-form v-if="interactionStore.formType === 'project'" />
+  <project-form v-if="interactionStore.entityType === 'project'" />
 </template>
 
 <script lang="ts" setup>

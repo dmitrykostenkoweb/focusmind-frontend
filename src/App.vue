@@ -5,7 +5,6 @@
         <app-header />
       </el-header>
       <el-container>
-        <app-aside />
         <el-main>
           <router-view />
         </el-main>
@@ -16,15 +15,5 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import AppAside from '@/components/AppAside/AppAside.vue'
 import AppHeader from '@/components/AppHeader/AppHeader.vue'
 </script>
-<style scoped lang="scss">
-.app {
-  &__header {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-  }
-}
-</style>

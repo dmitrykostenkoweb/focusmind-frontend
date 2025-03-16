@@ -9,7 +9,7 @@
         <el-input v-model="form.description" type="textarea" />
       </el-form-item>
 
-      <el-form-item v-if="interactionStore.formType === 'project'" label="Assign to Area">
+      <el-form-item v-if="interactionStore.entityType === 'project'" label="Assign to Area">
         <el-select
           v-model="(form as FormProjectEntity).areaId"
           placeholder="Select Area"
@@ -20,11 +20,20 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          />
+          >
+            <div class="option-cover">
+              <el-image class="option-cover__image" :src="item.img" fit="cover">
+                <template #error>
+                  <el-icon class="option-cover__error-icon"><Compass /></el-icon>
+                </template>
+              </el-image>
+              <span>{{ item.label }}</span>
+            </div>
+          </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item v-if="interactionStore.formType === 'task'" label="Assign to Project">
+      <el-form-item v-if="interactionStore.entityType === 'task'" label="Assign to Project">
         <el-select
           v-model="(form as FormTaskEntity).projectId"
           placeholder="Select Project"
@@ -35,11 +44,20 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          />
+          >
+            <div class="option-cover">
+              <el-image class="option-cover__image" :src="item.img" fit="cover">
+                <template #error>
+                  <el-icon class="option-cover__error-icon"><List /></el-icon>
+                </template>
+              </el-image>
+              <span>{{ item.label }}</span>
+            </div>
+          </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item v-if="interactionStore.formType !== 'area'" label="Select Status">
+      <el-form-item v-if="interactionStore.entityType !== 'area'" label="Select Status">
         <el-select
           v-model="(form as FormProjectEntity | FormTaskEntity).status"
           placeholder="Select Status"
@@ -129,29 +147,18 @@ const mode = computed<'create' | 'update'>(() => interactionStore.formMode)
 
 const entity = computed<EntityTypeMap[EntityType] | null>(() => interactionStore.selectedEntity)
 
-//Project
 const areaApiStore = useAreaApiStore()
 
-const areaOptions = computed<{ value: number; label: string }[]>(() =>
-  areaApiStore.areas.map((area) => ({
-    value: area.id,
-    label: area.name,
-  })),
-)
+const areaOptions = computed(() => areaApiStore.areaOptions)
 
-//Task
 const projectApiStore = useProjectApiStore()
 
-const projectOptions = computed<{ value: number; label: string }[]>(() =>
-  projectApiStore.projects.map((project) => ({
-    value: project.id,
-    label: project.name,
-  })),
+const projectOptions = computed(() => projectApiStore.projectOptions)
+
+const form = reactive(
+  createInitialForm(interactionStore.entityType) as FormEntityTypeMap[EntityType],
 )
 
-const form = reactive(createInitialForm(interactionStore.formType) as FormEntityTypeMap[EntityType])
-
-// Handlers
 const onSubmit = (): void => {
   if (mode.value === 'update') emit('edit', form)
   else emit('create', form)
@@ -181,6 +188,16 @@ watch(
       form.name = newValue.name || ''
       form.description = newValue.description || ''
       form.imageUrl = newValue.imageUrl || ''
+
+      if ('areaId' in newValue && interactionStore.entityType === 'project') {
+        ;(form as FormProjectEntity).areaId = newValue.areaId
+      }
+      if ('projectId' in newValue && interactionStore.entityType === 'task') {
+        ;(form as FormTaskEntity).projectId = newValue.projectId
+      }
+      if ('status' in newValue) {
+        ;(form as FormProjectEntity | FormTaskEntity).status = newValue.status
+      }
     } else {
       clearForm()
     }
@@ -195,3 +212,27 @@ watch(
   },
 )
 </script>
+
+<style scoped lang="scss">
+.option-cover {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: contain;
+  }
+
+  &__error-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>

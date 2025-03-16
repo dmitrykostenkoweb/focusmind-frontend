@@ -1,13 +1,8 @@
 <template>
   <header class="area-list__header">
     <h2>Areas</h2>
-    <el-button
-      round
-      icon="Plus"
-      type="primary"
-      size="small"
-      @click="interactionStore.openCreateDialog('area')"
-      >Add</el-button
+    <el-button plain icon="Plus" size="small" @click="interactionStore.openCreateDialog('area')"
+      >Add new area</el-button
     >
   </header>
   <div class="grid-container">
@@ -18,7 +13,7 @@
       @edit="interactionStore.openEditDialog(entity, 'area')"
     />
   </div>
-  <area-form v-if="interactionStore.formType === 'area'" />
+  <area-form v-if="interactionStore.entityType === 'area'" />
 </template>
 
 <script setup lang="ts">

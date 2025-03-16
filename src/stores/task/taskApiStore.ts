@@ -18,6 +18,12 @@ export const useTaskApiStore = defineStore('task-api-store', {
     isLoading: false,
   }),
 
+  getters: {
+    getTasksByProjectId: (state) => (projectId: number) => {
+      return state.tasks.filter((task) => task.projectId === projectId)
+    },
+  },
+
   actions: {
     async fetchTasks(): Promise<void> {
       this.isLoading = true

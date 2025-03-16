@@ -18,6 +18,16 @@ export const useAreaApiStore = defineStore('area-api-store', {
     error: null,
   }),
 
+  getters: {
+    areaOptions: (state) => {
+      return state.areas.map((area) => ({
+        value: area.id,
+        label: area.name,
+        img: area.imageUrl,
+      }))
+    },
+  },
+
   actions: {
     async fetchAreas() {
       this.isLoading = true

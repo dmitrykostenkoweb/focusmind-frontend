@@ -1,13 +1,8 @@
 <template>
   <header class="task-list__header">
     <h3>Tasks</h3>
-    <el-button
-      round
-      icon="Plus"
-      type="primary"
-      size="small"
-      @click="interactionStore.openCreateDialog('task')"
-      >Add</el-button
+    <el-button plain icon="Plus" size="small" @click="interactionStore.openCreateDialog('task')"
+      >Add new task</el-button
     >
   </header>
   <div class="grid-container">
@@ -18,7 +13,7 @@
       @edit="interactionStore.openEditDialog(entity, 'task')"
     />
   </div>
-  <task-form v-if="interactionStore.formType === 'task'" />
+  <task-form v-if="interactionStore.entityType === 'task'" />
 </template>
 
 <script lang="ts" setup>
