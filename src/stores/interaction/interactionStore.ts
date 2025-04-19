@@ -29,6 +29,7 @@ export const useInteractionStore = defineStore('interaction', {
         id: 0,
         name: '',
         description: '',
+        entityType: type,
       }
     },
 
@@ -43,6 +44,7 @@ export const useInteractionStore = defineStore('interaction', {
         id: 0,
         name: '',
         description: '',
+        entityType: type,
       }
     },
 
