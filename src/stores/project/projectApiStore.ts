@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axiosInstance from '@/services/axiosInstance'
 import type { AxiosError } from 'axios'
 import type { ProjectEntity } from '@/models/entity.model'
+import type { Status } from '@/models/shared.model'
 
 interface State {
   projects: ProjectEntity[]
@@ -34,11 +35,15 @@ export const useProjectApiStore = defineStore('project-api-store', {
   },
 
   actions: {
-    async fetchProjects() {
+    async fetchProjects(statuses?: Status[]) {
       this.isLoading = true
       this.error = null
       try {
-        const { data } = await axiosInstance.get<ProjectEntity[]>('/projects')
+        const { data } = await axiosInstance.get<ProjectEntity[]>('/projects', {
+          params: {
+            status: statuses,
+          },
+        })
         this.projects = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -95,6 +100,27 @@ export const useProjectApiStore = defineStore('project-api-store', {
       try {
         await axiosInstance.delete(`/projects/${id}`)
         this.projects = this.projects.filter((project) => project.id !== id)
+      } catch (err) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async updateProjectStatus(id: number, status: Status): Promise<void> {
+      this.isLoading = true
+      this.error = null
+      try {
+        const { data } = await axiosInstance.patch<ProjectEntity>(`/projects/${id}/status`, {
+          status,
+        })
+        this.projects = this.projects.map((project) => (project.id === data.id ? data : project))
+        if (this.fetchedProject?.id === id) {
+          this.fetchedProject = data
+        }
+        if (this.selectedProject?.id === id) {
+          this.selectedProject = data
+        }
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {

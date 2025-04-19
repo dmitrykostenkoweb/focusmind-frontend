@@ -1,23 +1,29 @@
 <template>
   <el-card class="entity-card" shadow="hover">
     <div class="entity-card__status">
-      <el-tag effect="dark" v-if="(entity as ProjectEntity | TaskEntity).status" :type="statusType">
+      <el-tag
+        @click="handleStatusClick"
+        effect="dark"
+        v-if="(entity as ProjectEntity | TaskEntity).status"
+        :type="statusType"
+        style="cursor: pointer"
+      >
         {{ (entity as ProjectEntity | TaskEntity).status }}
       </el-tag>
+
       <el-tag
+        v-if="(entity as ProjectEntity).areaId"
         style="color: var(--el-text-color-basic)"
         effect="plain"
-        v-if="(entity as ProjectEntity).areaId"
         type="info"
       >
         <el-icon><Compass /></el-icon>
         {{ areaApiStore.fetchedArea?.name }}</el-tag
       >
-
       <el-tag
+        v-if="(entity as TaskEntity).projectId"
         style="color: var(--el-text-color-basic)"
         effect="plain"
-        v-if="(entity as TaskEntity).projectId"
         type="info"
       >
         <el-icon><List /></el-icon> {{ projectApiStore.fetchedProject?.name }}
@@ -35,7 +41,7 @@
       </div>
     </template>
     <div class="entity-card__cover-wrapper">
-      <el-image class="entity-card__cover" lazy :src="entity.imageUrl" fit="cover">
+      <el-image class="entity-card__cover" :src="entity.imageUrl" fit="cover">
         <template #error>
           <div class="entity-card__image-slot">
             <el-icon><PictureFilled /></el-icon>
@@ -56,9 +62,11 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { Edit, PictureFilled } from '@element-plus/icons-vue'
-import type { EntityTypeMap, ProjectEntity, TaskEntity } from '@/models/entity.model'
 import { useAreaApiStore } from '@/stores/area/areaApiStore'
 import { useProjectApiStore } from '@/stores/project/projectApiStore'
+import { useTaskApiStore } from '@/stores/task/taskApiStore'
+import type { EntityTypeMap, ProjectEntity, TaskEntity } from '@/models/entity.model'
+import type { Status } from '@/models/shared.model'
 
 interface Props {
   entity: EntityTypeMap[keyof EntityTypeMap]
@@ -73,11 +81,12 @@ const emit = defineEmits<Emits>()
 
 const areaApiStore = useAreaApiStore()
 const projectApiStore = useProjectApiStore()
+const taskApiStore = useTaskApiStore()
 
 const statusType = computed<'info' | 'warning' | 'success' | 'primary' | 'danger'>(() => {
   const statusMap: Record<string, 'info' | 'warning' | 'success' | 'primary' | 'danger'> = {
     Inbox: 'info',
-    'In Progress': 'primary',
+    InProgress: 'primary',
     Pause: 'warning',
     Done: 'success',
   }
@@ -92,6 +101,27 @@ onMounted(async () => {
   if (areaId) await areaApiStore.fetchAreaById(areaId)
   if (projectId) await projectApiStore.fetchProjectById(projectId)
 })
+
+const handleStatusClick = async () => {
+  console.log('handleStatusClick', entity.entityType)
+  const statusOrder: Status[] = ['Inbox', 'InProgress', 'Pause', 'Done']
+
+  if (entity.entityType === 'task') {
+    console.log('task')
+    const currentStatus = (entity as TaskEntity).status
+    const currentIndex = statusOrder.indexOf(currentStatus as Status)
+    const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length]
+
+    await taskApiStore.updateTaskStatus(entity.id, nextStatus)
+  } else if (entity.entityType === 'project') {
+    console.log('project')
+    const currentStatus = (entity as ProjectEntity).status
+    const currentIndex = statusOrder.indexOf(currentStatus as Status)
+    const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length]
+
+    await projectApiStore.updateProjectStatus(entity.id, nextStatus)
+  }
+}
 </script>
 
 <style scoped lang="scss">

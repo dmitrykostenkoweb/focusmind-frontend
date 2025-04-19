@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axiosInstance from '@/services/axiosInstance'
 import type { AxiosError } from 'axios'
 import type { TaskEntity, FormTaskEntity } from '@/models/entity.model'
+import type { Status } from '@/models/shared.model'
 
 interface State {
   tasks: TaskEntity[]
@@ -25,10 +26,14 @@ export const useTaskApiStore = defineStore('task-api-store', {
   },
 
   actions: {
-    async fetchTasks(): Promise<void> {
+    async fetchTasks(statuses?: Status[]): Promise<void> {
       this.isLoading = true
       try {
-        const { data } = await axiosInstance.get<TaskEntity[]>('/tasks')
+        const { data } = await axiosInstance.get<TaskEntity[]>('/tasks', {
+          params: {
+            status: statuses,
+          },
+        })
         this.tasks = data
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Unknown error'
@@ -88,6 +93,22 @@ export const useTaskApiStore = defineStore('task-api-store', {
         this.tasks = this.tasks.filter((task) => task.id !== id)
       } catch (error) {
         this.error = error as AxiosError
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async updateTaskStatus(id: number, status: Status): Promise<void> {
+      this.isLoading = true
+      this.error = null
+      try {
+        const { data } = await axiosInstance.patch<TaskEntity>(`/tasks/${id}/status`, { status })
+        this.tasks = this.tasks.map((task) => (task.id === data.id ? data : task))
+        if (this.selectedTask?.id === id) {
+          this.selectedTask = data
+        }
+      } catch (err) {
+        this.error = err instanceof Error ? err.message : 'Unknown error'
       } finally {
         this.isLoading = false
       }
