@@ -1,11 +1,13 @@
-export const statusesOptions = [
+import type { StatusOption } from '@/models/shared.model'
+
+export const statusesOptions: StatusOption[] = [
   {
     value: 'Inbox',
     label: 'Inbox',
   },
   {
-    value: 'In Progress',
-    label: 'In Progress',
+    value: 'InProgress',
+    label: 'InProgress',
   },
   {
     value: 'Pause',

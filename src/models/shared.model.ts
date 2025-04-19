@@ -1,1 +1,6 @@
-export type Status = 'Inbox' | 'In Progress' | 'Pause' | 'Done'
+export type Status = 'Inbox' | 'InProgress' | 'Pause' | 'Done'
+
+export interface StatusOption {
+  value: Status
+  label: string
+}
