@@ -1,19 +1,28 @@
 <template>
-  <header class="area-list__header">
-    <h2>Areas</h2>
-    <el-button plain icon="Plus" size="small" @click="interactionStore.openCreateDialog('area')"
-      >Add new area</el-button
-    >
-  </header>
-  <div class="grid-container">
-    <card-component
-      v-for="entity in areaApiStore.areas"
-      :key="entity.id"
-      :entity
-      @edit="interactionStore.openEditDialog(entity, 'area')"
-    />
-  </div>
-  <area-form v-if="interactionStore.entityType === 'area'" />
+  <el-collapse-item name="area">
+    <template #title>
+      <header class="area-list__header">
+        <h2>Areas <el-badge :value="areaApiStore.areas.length" /></h2>
+        <el-button
+          plain
+          icon="Plus"
+          size="small"
+          @click.stop="interactionStore.openCreateDialog('area')"
+          >Add new area</el-button
+        >
+      </header>
+    </template>
+    <div class="grid-container">
+      <card-component
+        v-for="entity in areaApiStore.areas"
+        :key="entity.id"
+        :entity
+        @edit="interactionStore.openEditDialog(entity, 'area')"
+      />
+    </div>
+
+    <area-form v-if="interactionStore.entityType === 'area'" />
+  </el-collapse-item>
 </template>
 
 <script setup lang="ts">
